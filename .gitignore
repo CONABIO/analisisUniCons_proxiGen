@@ -5,3 +5,6 @@
 .DS_Store
 .TemporaryItems
 graficas_prueba.docx
+.RDataTmp
+.Rapp.history
+.Rhistory
