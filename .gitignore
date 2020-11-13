@@ -1,0 +1,7 @@
+# ignore heavy data files, this would be available at Dryad
+/data
+
+# Ignore files unrelated to the project
+.DS_Store
+.TemporaryItems
+graficas_prueba.docx
