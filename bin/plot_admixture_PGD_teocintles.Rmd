@@ -1,0 +1,148 @@
+---
+title: "plot_admixture_PGD_teocintles"
+output: html_document
+---
+
+```{r}
+library(raster)
+library(dplyr)
+library(readr)
+library(ggplot2)
+library(pophelper)
+library(scatterpie)
+library(gridExtra)
+```
+
+First plot CV 
+```{r}
+### parvi
+
+parvi_CV<-read.delim("../data/genetic/output/admixture/parvi/Kerror_parviglumis.txt", 
+                    sep=" ", header=FALSE, stringsAsFactors = FALSE) %>%
+                    mutate(K = parse_number(V3)) %>% 
+                    select(K, V4) %>% rename(CV=V4)
+
+## Plot CV
+p <- ggplot(parvi_CV, aes(x=K, y=CV)) + geom_point(size=1) + geom_line()  
+
+p + theme(axis.title.x = element_text(face="bold", size=20),
+          axis.text.x  = element_text(angle=90, vjust=0.5, size=16),
+          axis.title.y = element_text(face="bold", size=20),
+          axis.text.y  = element_text(size=16)) +
+  ggtitle(label = "Z. m. parviglumis")
+
+### mexicana
+
+mexi_CV<-read.delim("../data/genetic/output/admixture/mexicana/Kerror_mexicana.txt", 
+                    sep=" ", header=FALSE, stringsAsFactors = FALSE) %>%
+  mutate(K = parse_number(V3)) %>% 
+  select(K, V4) %>% rename(CV=V4)
+
+## Plot CV
+p <- ggplot(mexi_CV, aes(x=K, y=CV)) + geom_point(size=1) + geom_line()  
+
+p + theme(axis.title.x = element_text(face="bold", size=20),
+          axis.text.x  = element_text(angle=90, vjust=0.5, size=16),
+          axis.title.y = element_text(face="bold", size=20),
+          axis.text.y  = element_text(size=16)) +
+  ggtitle(label = "Z. m. mexicana")
+
+```
+
+
+The CV error of the Admixture analysis doesn't show a clear K value, so we chose those K values where the slope changes for each species. For ** Z. m. parviglumis** this is K=13 and K=25, and for **Z. m. mexicana** K= 5, K=10 and K=20.
+
+
+## Z. m. parviglumis
+
+Load admixture Q data and samples metadata
+
+```{r}
+# get data
+parvifiles<-c("../data/genetic/output/admixture/parvi/bytaxa_parviglumis.25.Q",
+              "../data/genetic/output/admixture/parvi/bytaxa_parviglumis.13.Q")
+
+parvi_list<- readQ(parvifiles)
+
+# Check
+attributes(parvi_list)
+
+# Get metadata
+meta<-read.delim("../data/genetic/output/ADN_pasap_3604.txt")
+parviPlinksamples<-read.table("../data/genetic/output/bytaxa_parviglumis.fam")
+parvimeta<-meta[meta$POBL %in% parviPlinksamples$V2, ]
+levels(parvimeta$ESTADO)[13]<-"EdoMex"
+levels(parvimeta$ESTADO)[14]<-"Michoacan"
+
+# add sample metadata to qlist
+attributes(parvi_list[[1]])$row.names<-as.character(parvimeta$POBL)
+attributes(parvi_list[[2]])$row.names<-as.character(parvimeta$POBL)
+
+```
+
+Plot Qvals of both Ks of interest:
+
+```{r, fig.width=30, fig.height=10}
+
+p1 <- plotQ(alignK(parvi_list[1:2]),
+            sortind = "all",
+            imgoutput="join", returnplot=T, sharedindlab=FALSE,
+            exportplot=F,basesize=11)
+grid.arrange(p1$plot[[1]])
+
+```
+
+Plot only K=13 ordering by all genetic clusters
+
+```{r, fig.width=40, fig.height=10}
+p1<-plotQ(parvi_list[2],
+            returnplot=T,
+            exportplot=F,
+            sortind = "all", basesize = 11,
+           # showindlab= TRUE, useindlab=TRUE, indlabangle=90, indlabsize=0.1,
+      exportpath = "../data/genetic/output/admixture/parvi")
+p1
+
+```
+
+Plot adding Mexican states as groups:
+
+```{r, fig.width=40, fig.height=10}
+labset2<-data.frame(ESTADO=as.character(parvimeta$ESTADO), stringsAsFactors = FALSE)
+
+p2<-plotQ(parvi_list[2],
+            returnplot=T,
+            exportplot=F,
+            sortind = "all",
+      grplab=labset2, 
+      ordergrp=TRUE, 
+      grplabangle= 0, grplabsize=10, linesize=3, divsize = 3.5,
+      exportpath = "../data/genetic/output/admixture/parvi")
+plot(p2$plot[[1]])
+
+
+
+```
+
+
+```{r, fig.width=40, fig.height=10}
+labset3<-data.frame(ESTADO=as.character(parvimeta$ESTADO), 
+                    POB=as.character(parvimeta$POB),
+                    stringsAsFactors = FALSE)
+
+p3<-plotQ(parvi_list[2],
+            returnplot=T,
+            exportplot=F,
+            sortind = "all",
+      grplab=labset3, 
+      ordergrp=TRUE, 
+      grplabangle= 70, grplabsize=10, linesize=3, divsize = 3.5, grplabheight=0.2, grplabpos=.5,
+      exportpath = "../data/genetic/output/admixture/parvi")
+
+plot(p3$plot[[1]])
+```
+
+
+Extract in which PGD do the sampled individuals fall. This would be used to then add this information to the plot and see how well PGD correspond to genetic clusters.
+
+
