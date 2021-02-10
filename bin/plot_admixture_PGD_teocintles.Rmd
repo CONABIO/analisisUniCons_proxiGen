@@ -22,7 +22,7 @@ First plot CV
 parvi_CV<-read.delim("../data/genetic/output/admixture/parvi/Kerror_parviglumis.txt", 
                     sep=" ", header=FALSE, stringsAsFactors = FALSE) %>%
                     mutate(K = parse_number(V3)) %>% 
-                    select(K, V4) %>% rename(CV=V4)
+                    dplyr::select(K, V4) %>% rename(CV=V4)
 
 ## Plot CV
 p <- ggplot(parvi_CV, aes(x=K, y=CV)) + geom_point(size=1) + geom_line()  
@@ -38,7 +38,7 @@ p + theme(axis.title.x = element_text(face="bold", size=20),
 mexi_CV<-read.delim("../data/genetic/output/admixture/mexicana/Kerror_mexicana.txt", 
                     sep=" ", header=FALSE, stringsAsFactors = FALSE) %>%
   mutate(K = parse_number(V3)) %>% 
-  select(K, V4) %>% rename(CV=V4)
+  dplyr::select(K, V4) %>% rename(CV=V4)
 
 ## Plot CV
 p <- ggplot(mexi_CV, aes(x=K, y=CV)) + geom_point(size=1) + geom_line()  
@@ -154,13 +154,13 @@ ppie1 + geom_text(data=parvimeta,
 Plot ordering populations in geographical order
 
 ```{r,fig.width=40, fig.height=12}
-# Get latitudinal order
+# Get longitudinal order
 df<-data.frame(POB=parvimeta$POB, LONGITUDE=parvimeta$LONGITUDE) %>%
     unique() %>%
     arrange(LONGITUDE)
 unique(df$POB)
 
-# set levels of Pops in latitudinal order
+# set levels of Pops in longitudinal order
 desired_order<-unique(df$POB)
 parvimeta$POBorder<-factor(parvimeta$POB, levels = desired_order)
 
@@ -282,7 +282,7 @@ PGD_points<-raster::extract(parvi_rasters$PDG_Zea_mays_parviglumis,
                     y=data.frame(long=parvimeta$LONGITUDE,
                                  lat=parvimeta$LATITUDE)) %>%
             as.character()
-PGD_points<-parvimeta %>% select(LONGITUDE, LATITUDE, DNASample, POB, POBorder) %>%
+PGD_points<-parvimeta %>% dplyr::select(LONGITUDE, LATITUDE, DNASample, POB, POBorder) %>%
                   mutate(PGD_points=PGD_points) 
 
 table(PGD_points$PGD_points)
@@ -327,3 +327,337 @@ plot(p3$plot[[1]])
 ```
 
 Omit labels for plot for the paper:
+
+
+
+
+## Z. m. mexicana
+
+Load admixture Q data and samples metadata
+
+```{r}
+# get data
+mexifiles<-c("../data/genetic/output/admixture/mexicana/bytaxa_mexicana.5.Q",
+            "../data/genetic/output/admixture/mexicana/bytaxa_mexicana.10.Q",
+             "../data/genetic/output/admixture/mexicana/bytaxa_mexicana.20.Q")
+
+mexi_list<- readQ(mexifiles)
+
+# Check
+attributes(mexi_list)
+
+# Get metadata
+meta<-read.delim("../data/genetic/output/ADN_pasap_3604.txt")
+mexiPlinksamples<-read.table("../data/genetic/output/bytaxa_mexicana.fam")
+meximeta<-meta[meta$POBL %in% mexiPlinksamples$V2, ]
+levels(meximeta$ESTADO)[13]<-"EdoMex"
+levels(meximeta$ESTADO)[14]<-"Michoacan"
+
+# add sample metadata to qlist
+attributes(mexi_list[[1]])$row.names<-as.character(meximeta$POBL)
+attributes(mexi_list[[2]])$row.names<-as.character(meximeta$POBL)
+
+# drop unused levels
+meximeta<-droplevels(meximeta)
+```
+
+Plot Qvals of all Ks of interest:
+  
+```{r, fig.width=30, fig.height=10}
+
+p1 <- plotQ(alignK(mexi_list[1:3]),
+            sortind = "all",
+            imgoutput="join", returnplot=T, sharedindlab=FALSE,
+            exportplot=F,basesize=11)
+grid.arrange(p1$plot[[1]])
+
+```
+
+Plot only K=10 ordering by all genetic clusters
+
+```{r, fig.width=40, fig.height=10}
+p1<-plotQ(mexi_list[2],
+          returnplot=T,
+          exportplot=F,
+          sortind = "all", basesize = 11,
+          # showindlab= TRUE, useindlab=TRUE, indlabangle=90, indlabsize=0.1,
+          exportpath = "../data/genetic/output/admixture/mexi")
+plot(p1$plot[[1]])
+
+```
+
+Scatterpies of admixture groups
+
+```{r, fig.width=15, fig.height=10}
+# Read raw Qval file
+Qval<-read.table(paste0("../data/genetic/output/admixture/mexicana/bytaxa_mexicana.10.Q"))
+names(Qval)<-paste0("K", 1:ncol(Qval))
+
+# add metadata
+Qval<-cbind(meximeta$POB, meximeta$INDIV, meximeta$LONGITUDE, meximeta$LATITUDE, meximeta$Raza, Qval)
+names(Qval)[1:5]<-c("POB", "INDIV", "LONGITUDE", "LATITUDE", "Raza") 
+
+# generate same colors than the ones used for admixture plot
+piecolors<-gplots::rich.colors(10)
+
+# plot scatterpie
+ppie1<- ggplot() + geom_scatterpie(data=Qval,
+                                   aes(x=LONGITUDE, 
+                                       y=LATITUDE,
+                                       group=POB),
+                                   color=NA,
+                                   cols=paste0("K", 1:10)) +
+  scale_fill_manual(values= piecolors,
+                    name="Genetic cluster") + theme_bw()
+
+ppie1
+```
+
+Adding populations names:
+
+```{r, fig.width=28, fig.height=20}
+# plot scatterpie
+ppie1 + geom_text(data=meximeta,
+                  aes(x=meximeta$LONGITUDE,
+                      y=meximeta$LATITUDE,
+                      label=POB),
+                  color="grey40",
+                  check_overlap = T,
+                  hjust = 0, vjust=1, nudge_x = 0.0005,
+                  size= 5.5)
+```
+
+
+Plot admixture ordering populations by geographical order
+
+```{r,fig.width=40, fig.height=12}
+# Get longitudinal order
+df<-data.frame(POB=meximeta$POB, LONGITUDE=meximeta$LONGITUDE) %>%
+  unique() %>%
+  arrange(LONGITUDE)
+unique(df$POB)
+
+# set levels of Pops in longitudinal order
+desired_order<-unique(df$POB)
+meximeta$POBorder<-factor(meximeta$POB, levels = desired_order)
+
+# change levels so that they sort in that order alphabetically
+levels(meximeta$POBorder)<-paste0(1:30, levels(meximeta$POBorder))
+levels(meximeta$POBorder)[1:9]<-paste0("0", levels(meximeta$POBorder)[1:9])
+
+# set labels
+labset2<-data.frame(POBorder=as.character(meximeta$POBorder), 
+                    Raza=as.character(meximeta$Raza), stringsAsFactors = FALSE)
+
+#plot
+p<-plotQ(mexi_list[2],
+         returnplot=T,
+         exportplot=F,
+         sortind = "all",
+         grplab=labset2, 
+         ordergrp=TRUE, 
+         grplabangle= 45, grplabsize=10, linesize=3, divsize = 2, grplabheight= 2, grplabpos=0.5, 
+         clustercol= piecolors,
+         exportpath = "../data/genetic/output/admixture/mexi")
+plot(p$plot[[1]])
+```
+
+
+Plot by raza
+
+```{r,fig.width=40, fig.height=12}
+# set levels of raza in geographical order
+desired_order<-c("Nobogame", "Durango", "Mesa Central", "Chalco")
+meximeta$Raza_order<-factor(meximeta$Raza, levels = desired_order)
+
+# change levels so that they sort in that order alphabetically
+levels(meximeta$Raza_order)<-paste0(1:30, levels(meximeta$Raza_order))
+levels(meximeta$Raza_order)[1:4]<-paste0("0", levels(meximeta$Raza_order)[1:4])
+
+# set labels
+labset3<-data.frame(Raza_order=as.character(meximeta$Raza_order), stringsAsFactors = FALSE)
+
+#plot
+p<-plotQ(mexi_list[2],
+         returnplot=T,
+         exportplot=F,
+         sortind = "all",
+         grplab=labset3, 
+         ordergrp=TRUE, 
+         grplabangle= 45, grplabsize=10, linesize=3, divsize = 2, grplabheight= 2, grplabpos=0.5, 
+         clustercol= piecolors,
+         exportpath = "../data/genetic/output/admixture/mexi")
+plot(p$plot[[1]])
+```
+
+Extract in which PGD do the sampled individuals fall. This would be used to then add this information to the plot and see how well PGD correspond to genetic clusters.
+
+First load raster data of Zea mays spp mexicana SDM and the PGD that fell within it:
+
+```{r}
+# path to rasters
+my_rasters<-c("../data/spatial/areasProxyDivGen/crop_to_sp_final/PDG_Zea_mays_mexicana_race_chalco.tif",
+              "../data/spatial/areasProxyDivGen/crop_to_sp_final/PDG_Zea_mays_mexicana_race_durango.tif",
+              "../data/spatial/areasProxyDivGen/crop_to_sp_final/PDG_Zea_mays_mexicana_race_mesa_central.tif",
+              "../data/spatial/areasProxyDivGen/crop_to_sp_final/PDG_Zea_mays_mexicana_race_nobogame.tif") #SDM subdivied by Proxies of gen div
+
+# stack rasters 
+mexi_rasters<-stack(my_rasters)
+
+# add shorter names
+names(mexi_rasters)
+names(mexi_rasters)<-c("chalco", "durango", "mesa_central", "nobogame")
+
+# Check projection
+proj4string(mexi_rasters)
+
+# change projection to longlat for nicer visualization
+newcrs <- CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
+mexi_rasters<-projectRaster(mexi_rasters, crs=newcrs, method="ngb")
+mexi_rasters<-stack(mexi_rasters)
+
+# crop rasters to make them more managable
+mexi_small_all<- raster::crop(mexi_rasters,
+                           y=extent(c(-107.5, -97 , 18.5, 26.5)))
+
+# sum rasters so that we have all PGD in a single layer
+mexi_small<-calc(mexi_small_all, sum)
+
+```
+
+Z. m. mexicana has `r length(unique(getValues(mexi_small)))-1` PGD distributed like this:
+  
+```{r}
+# Get number of cells of each PDG
+table(getValues(mexi_small))
+```
+
+
+Plot PGD and sampling points of genetic data.
+
+```{r, fig.width=15, fig.height=10}
+# convert to df to plot with ggplot
+raster_df<-as.data.frame(rasterToPoints(mexi_small, spatial = TRUE))
+raster_df$layer<-as.character(raster_df$layer)
+
+# get nice colors
+mycols<-c("grey70", "#c8a940", "#9455cb", "#5cc24a", "#c244a6", "#55bb68", "#db4085", "#4c8b29", "#d27cde", "#9cb735", "#546dd6", "#db8b2f", "#4c98d0", "#d9642d", "#47c4ce", "#dc463f", "#5ccba0", "#cc3e5c", "#5a9c60", "#72579c", "#a1b46c", "#9992db", "#6a742a", "#da84b5", "#2e7241", "#a34976", "#37967d", "#a84a2b", "#d89667", "#9f4f55", "#8e672c", "#e2807f")
+
+
+# plot PGD raster
+p<- ggplot() +
+  geom_raster(data = raster_df , aes(x = x, y = y, fill = layer)) +
+  scale_fill_manual(values= alpha(mycols, 0.5) , name="PGD") + 
+  theme_bw() 
+
+# add sampling points
+p + geom_point(data=meximeta, aes(x=LONGITUDE, 
+                                   y=LATITUDE))
+
+# zoom to particular place
+#p + geom_point(data=meximeta, aes(x=LONGITUDE, 
+                                   y=LATITUDE)) +
+#  xlim(-108, -106) + ylim(25, 26.5)
+```
+
+Plot scatterpies with genetic groups
+
+```{r, fig.width=15, fig.height=10}
+p_piemap<-p + new_scale("fill") + # this is needed because raster and pie have diff fills
+  geom_scatterpie(data=Qval,
+                  aes(x=LONGITUDE, 
+                      y=LATITUDE,
+                      group=POB),
+                  color="NA",
+                  cols=paste0("K", 1:10)) +
+  scale_fill_manual(values= piecolors,
+                    name="Genetic cluster") +
+  labs(x="", y= "") + theme(text = element_text(size = 25))
+p_piemap
+```
+
+
+Extract in which PGD each genetic sample falls:
+  
+```{r}
+# Create function to estimate the mode, omitting na values
+Mode <- function(x) {
+  ux <- unique(na.omit(x))
+  ux[which.max(tabulate(match(x, ux)))]
+}
+
+# transform 0 value (out of sp SDM range) to NA so that only PGD are considered
+mexi_small$layer<-reclassify(mexi_small$layer, 
+                    rcl=c(0, .1, NA), include.lowest=TRUE)
+
+# extract the PDG most frequent in a given buffer radio of the sampling point
+# ignoring NA values (see Mode fun)
+PGD_points<-raster::extract(mexi_small$layer,
+                            buffer=10000, fun=Mode, # so that no points fell in only NAs
+                            y=data.frame(long=meximeta$LONGITUDE,
+                                         lat=meximeta$LATITUDE)) %>%
+  as.character()
+PGD_points<-meximeta %>% dplyr::select(LONGITUDE, LATITUDE, DNASample, POB, POBorder, Raza) %>%
+  mutate(PGD_points=PGD_points) 
+
+table(PGD_points$PGD_points)
+
+# check if there are still NA
+sum(is.na(PGD_points$PGD_points))
+PGD_points[PGD_points$PGD_points==0, ]
+
+# assing them to closest PGD
+# PGD_points[is.na(PGD_points$PGD_points), ]$PGD_points <-48
+table(PGD_points$PGD_points)
+```
+
+Use this information to see in which genetic group our PGD fall:
+  
+```{r, fig.width=40, fig.height=10}
+### need to fix this:
+# set levels of PGD more or less in lontigitudinal order
+# desired_order<-c("86", "5", "184",  "92", "21", "93", "91", "25", "0")
+# 
+# PGD_points$PGD_order<-factor(PGD_points$PGD_points, levels = desired_order)
+# 
+# # change levels so that they sort in that order alphabetically
+# levels(PGD_points$PGD_order)<-paste0(1:9, "_",levels(PGD_points$PGD_order))
+
+# set labels
+labsetPGD<-data.frame(PGD_order=as.character(PGD_points$PGD_points),
+                      Raza=as.character(PGD_points$Raza),
+                      stringsAsFactors = FALSE)
+
+p3<-plotQ(mexi_list[2],
+          returnplot=T,
+          exportplot=T,
+          sortind = "all",
+          grplab=labsetPGD, selgrp = "Raza",
+          ordergrp=T, 
+          clustercol = piecolors,
+          grplabangle= 90, grplabsize=8, linesize=3, divsize = 3.5,
+          exportpath = getwd(), height = 20, width = 80)
+plot(p3$plot[[1]])
+
+
+```
+
+Omit labels for plot for the paper:
+  
+```{r, fig.width=40, fig.height=10}
+# p4 <-plotQ(mexi_list[2],
+#           returnplot=T,
+#           exportplot=T,
+#           sortind = "all",
+#           grplab=labsetPGD, selgrp = "PGD_order",
+#           ordergrp=T, 
+#           clustercol = piecolors,
+#           grplabangle= 90, grplabsize=8, linesize=3, divsize = 3.5,
+#           exportpath = getwd(), height = 20, width = 80,
+#           showgrplab = FALSE)
+# plot(p4$plot[[1]])
+```
+  
+
+
+
