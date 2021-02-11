@@ -278,27 +278,51 @@ parvi_rasters$PDG_Zea_mays_parviglumis<-reclassify(parvi_rasters$PDG_Zea_mays_pa
 # extract the PDG most frequent in a given buffer radio of the sampling point
 # ignoring NA values (see Mode fun)
 PGD_points<-raster::extract(parvi_rasters$PDG_Zea_mays_parviglumis,
-                            buffer=2000, fun=Mode, # so that no points fell in only NAs
+                            buffer=2500, fun=Mode, # so that no points fell in only NAs
                     y=data.frame(long=parvimeta$LONGITUDE,
                                  lat=parvimeta$LATITUDE)) %>%
             as.character()
-PGD_points<-parvimeta %>% dplyr::select(LONGITUDE, LATITUDE, DNASample, POB, POBorder) %>%
+PGD_points<-parvimeta %>% dplyr::select(LONGITUDE, LATITUDE, DNASample, POB, POBorder, POBL) %>%
                   mutate(PGD_points=PGD_points) 
 
 table(PGD_points$PGD_points)
 
-# check if there are still NA
+# check if there are samples that did not fell in any PGD
 sum(is.na(PGD_points$PGD_points)) 
 PGD_points[is.na(PGD_points$PGD_points), ]
 
-# assing them to closest PGD
-PGD_points[is.na(PGD_points$PGD_points), ]$PGD_points <-48
-table(PGD_points$PGD_points)
 ```
+
+Remove genetic samples that did not fell in any PGD
+
+```{r}
+# check original n
+nrow(PGD_points)
+
+# get samples names that FELL in PGD
+PGD_points<-PGD_points[!is.na(PGD_points$PGD_points), ]
+fell_in_PGD<-as.character(PGD_points$POBL)
+
+# check how many samples we have now
+length(fell_in_PGD)
+
+# keep only samples that fell in PGD in the admixture data
+# get rows matching fell in PGD
+x<-attributes(parvi_list[[2]])$row.names %in% fell_in_PGD
+
+# subset list
+subset_admix_list<-list(parvi_list[[2]][x,])
+names(subset_admix_list)<-names(parvi_list[2])
+
+```
+
+
 
 Use this information to see in which genetic group our PGD fall:
 
 ```{r, fig.width=40, fig.height=10}
+
+## order PGD
 # set levels of PGD more or less in lontigitudinal order
 desired_order<-c("48", "36", "10", "5", "15", "11" , "37", "6", "84", "43", "8", "40", "41")
 
@@ -313,22 +337,53 @@ labsetPGD<-data.frame(PGD_points=as.character(PGD_points$PGD_order),
                       POBorder=as.character(PGD_points$POBorder),
                       stringsAsFactors = FALSE)
 
-p3<-plotQ(parvi_list[2],
+p3<-plotQ(subset_admix_list[1],
             returnplot=T,
-            exportplot=T,
+            exportplot=F,
             sortind = "all",
       grplab=labsetPGD, selgrp = "PGD_points",
       ordergrp=T, 
       grplabangle= 90, grplabsize=8, linesize=3, divsize = 3.5,
       exportpath = getwd(), height = 20, width = 80)
 plot(p3$plot[[1]])
-
-
 ```
 
 Omit labels for plot for the paper:
 
+```{r, fig.width=30, fig.height=5}
+p3<-plotQ(subset_admix_list[1], 
+            returnplot=T,
+            exportplot=T,
+            sortind = "all",
+      grplab=labsetPGD, selgrp = "PGD_points",
+      ordergrp=T, 
+      grplabangle= 90, grplabsize=8, divsize = 1,
+      showgrplab= FALSE, splab="",
+      exportpath = getwd(), height = 2.5, width = 15,
+      outputfilename="../figures/parviglumis13Q_subsetPGD")
+plot(p3$plot[[1]])
+```
 
+Save map for paper plot:
+
+```{r, fig.height = 10, fig.width = 15}
+p_piemap<-p + theme(legend.position = "none") +
+          new_scale("fill") + # this is needed because raster and pie have diff fills
+          geom_scatterpie(data=Qval,
+                                   aes(x=LONGITUDE, 
+                                       y=LATITUDE,
+                                       group=POB),
+                                       color="NA",
+                                       cols=paste0("K", 1:13)) +
+         scale_fill_manual(values= piecolors)+
+         labs(x="", y= "") + theme(text = element_text(size = 15))
+p_piemap
+
+# save to file
+ggsave("../figures/piemap_parviglumis_pgd.png",
+       plot=p_piemap, dpi=72,
+       width=15, height = 10, units="cm")
+```
 
 
 ## Z. m. mexicana
@@ -555,9 +610,9 @@ p + geom_point(data=meximeta, aes(x=LONGITUDE,
                                    y=LATITUDE))
 
 # zoom to particular place
-#p + geom_point(data=meximeta, aes(x=LONGITUDE, 
+p + geom_point(data=meximeta, aes(x=LONGITUDE, 
                                    y=LATITUDE)) +
-#  xlim(-108, -106) + ylim(25, 26.5)
+  xlim(-103, -102) + ylim(20, 21)
 ```
 
 Plot scatterpies with genetic groups
