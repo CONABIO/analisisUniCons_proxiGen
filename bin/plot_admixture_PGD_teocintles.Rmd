@@ -217,16 +217,24 @@ raster_df$PDG_Zea_mays_parviglumis<-as.character(raster_df$PDG_Zea_mays_parviglu
 # get nice colors
 mycols<-c("grey40","#917031", "#4d6cd0", "#8bbb39", "#c556c5", "#53d06a", "#895dc8", "#42a331", "#d84492", "#69b974", "#d63c48", "#4dc0b1", "#d3542b", "#4b9cd3", "#d2a337", "#9289cf", "#b1b23a", "#9a5398", "#498331", "#cc4668", "#37835d", "#df89be", "#6e7721", "#9b496e", "#b9b06d", "#ac575b", "#65743a", "#e78b7a", "#db873d", "#a2552d")
 
+# get labels with 0 as "NA" (it is not really NA, just the part of Mx out of the species range). True NA is outside of Mx.
+mylabs<-unique(getValues(parvi_rasters$PDG_Zea_mays_parviglumis))[2:length(unique(getValues(parvi_rasters$PDG_Zea_mays_parviglumis)))] # ommit the first (true NA)
+mylabs[1]<-"NA" # change 0 to "NA"
+mylabs
+
 
 # plot PGD raster
 p<- ggplot() +
     geom_raster(data = raster_df , aes(x = x, y = y, fill = PDG_Zea_mays_parviglumis)) +
-    scale_fill_manual(values= alpha(mycols, 0.5) , name="PGD") + 
-    theme_bw() 
+    scale_fill_manual(values= alpha(mycols, 0.5) , name="PGD",
+                      labels=mylabs) + # no prevent the area outside the SDM to appear as a PDG 0
+    theme_bw() + 
+    labs(x="", y= "") + theme(text = element_text(size = 25))
 
 # add sampling points
 p + geom_point(data=parvimeta, aes(x=LONGITUDE, 
                                    y=LATITUDE))
+
 
 ```
 
