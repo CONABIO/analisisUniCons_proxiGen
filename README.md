@@ -6,12 +6,73 @@ Alicia Mastretta-Yanes, Tania Urquiza-Haas, Bárbara Goettsch, Angela P. Cuervo 
 
 ## Data
 
-Data is available at the Dryad repository XXXXX (available upon aceptance). There you could find the following data:
+Data is available at the Dryad repository XXXXX (available upon aceptance). There you could find the data described below. The scripts in `/bin` expect the data organized in the following way:
+
+### Spatial raw rasters
+
+* Rasters (.tif) of species distribution models for each of the cwr taxa uses for analyses should be in the directory:
+ `/data/spatial/modelos_darwin_all_final`
+
+Raster names have the taxon name.
+ 
+* Rasters (.tif) of Holdrige live zones should be in the directory:
+ `/data/spatial/zv27`
+
+Rasters are named `zv_[1:27].tif`
+
+ * Rasters (.tif) with proxies of genetic diversity (PDG) should be in the directory:
+ `/data/spatial/areasProxyDivGen`
+ 
+ Rasters file names are as follow: each of the Holdrige life zones (`zv_[1:27]`) are subdivided with a `_[letter].tif` for each of the PGD for that life zone.
+
+
+### Zonation rasters 
+
+Zonation output rasters should be in the directory:
+`/data/spatial/Zonation_output/`
+
+File content is the following:
+
+* Zonation output with species only (n=116): `01_MDP.rank.compressed.tif"` 
+* Zonation output with species + LZ (n=143): `02_MDP_ZV.rank.compressed.tif"`
+* Zonation output with species and PDG (n=218): `03_MDP_PDG.rank.compressed.tif`
+* Zonation output with species vs PDG (n=5004): `04_MDP_vs_PDG.rank.compressed.tif`
+* Zonation output with species and PDG as ADMU (n=116+1): `05_MDP_PDG_ADMU.rank.compressed.tif`
+
+
+### Zonation output curves 
+
+Zonation output curves should be in the directory::
+`/data/spatial/Zonation_final_solutions/`
+
+File content is the following:
+
+* Zonation curves: `E_final_Todos.curves.txt`
+* Conservation features: `E_final_Todos.features_info.txt"`
+* Zonation curves output and features but for taxa exclusively distributing in natural vegetation: 
+`E_final_VegPyS.features_info.txt"` and `E_final_VegPyS.curves.txt`.
+* Zonation curves output and features but for taxa associated to different habitats, i.e. natural vegetation, agricultural and urban areas: `E_final_HabVarios.features_info.txt` and `E_final_HabVarios.curves.txt`.
+
+### Genetic
+
+Admixture output data for Z. m. parviglumis is in the directory:
+`/data/genetic/output/admixture/parvi/`
+
+File content is the following:
+
+* Admixture output K error for CV analysis: `Kerror_parviglumis.txt`
+* Admixture Q files for K= 25 and K= 13: `bytaxa_parviglumis.25.Q` and `bytaxa_parviglumis.13.Q"`
+
+
+### Other
+* Table with IUCN category per taxa: 
+`/data/spatial/Zonation_final_solutions/IUCN_threat_category.csv`
+ 
 
 
 ## Non-coding analyses and Figures
 
-Figures 2, 5 and Supplementary Figures 1-3, 5-7, 10 and 11   were made in ArcMap with spatial data (georefered data, species distribution models, Zonation outputs and other shapefiles available in the data section).
+Figures 2, 5 and Supplementary Figures 1-3, 5-7, 10 and 11 were made in ArcMap with spatial data (georefered data, species distribution models, Zonation outputs and other shapefiles available in the data section).
 
 Zonation configuration file is available in Supplementary Materials 1.
 
@@ -52,7 +113,7 @@ Data used by this script:
 "../data/spatial/Zonation_output/comparacion/01_MDP.rank.compressed.tif", # Zonation output with species only (n=116) #1
 "../data/spatial/Zonation_output/comparacion/02_MDP_ZV.rank.compressed.tif", # Zonation output with species + LZ (n=143) #2
 "../data/spatial/Zonation_output/comparacion/03_MDP_PDG.rank.compressed.tif", # Zonation output with species and PDG (n=218) #3
- "../data/spatial/Zonation_output/comparacion/04_MDP_vs_PDG.rank.compressed.tif", # Zonation output with species vs PDG (n=5004) #4
+"../data/spatial/Zonation_output/comparacion/04_MDP_vs_PDG.rank.compressed.tif", # Zonation output with species vs PDG (n=5004) #4
 "../data/spatial/Zonation_output/comparacion/05_MDP_PDG_ADMU.rank.compressed.tif", # Zonation output with species and PDG as ADMU (n=116+1) #5
 "../data/spatial/areasProxyDivGen/PDG.tif") #Proxies div gen 
 ```
