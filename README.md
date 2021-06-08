@@ -48,7 +48,7 @@ Zonation output curves should be in the directory::
 File content is the following:
 
 * Zonation curves: `E_final_Todos.curves.txt`
-* Conservation features: `E_final_Todos.features_info.txt"`
+* Conservation features: `E_final_Todos.features_info.txt`
 * Zonation curves output and features but for taxa exclusively distributing in natural vegetation: 
 `E_final_VegPyS.features_info.txt"` and `E_final_VegPyS.curves.txt`.
 * Zonation curves output and features but for taxa associated to different habitats, i.e. natural vegetation, agricultural and urban areas: `E_final_HabVarios.features_info.txt` and `E_final_HabVarios.curves.txt`.
@@ -72,12 +72,19 @@ File content is the following:
 
 ## Non-coding analyses and Figures
 
-Figures 2, 5 and Supplementary Figures 1-3, 5-7, 10 and 11 were made in ArcMap with spatial data (georefered data, species distribution models, Zonation outputs and other shapefiles available in the data section).
+Figures 2, 5 and Supplementary Figures 1-3, 5-7, 10 and 11 were made in ArcMap with the spatial data and zonation raster outputs detailed above (georeferenced data, species distribution models, zonation outputs, among others).
 
-Zonation configuration file is available in Supplementary Materials 1.
+## Zonation analyses
+Zonation configuration files are in:`/bin/Zonation`.
+
+File contents as follows:
+
+* Zonation configuration file `Zonation_CWR_config_file.dat` (also available at Supplementary Materials 1)
 
 
-## Coding analyses and Figures
+
+
+## Analyses in R and Figures
 
 Code for analyses and plots made in R is available in the `/bin` directory of this repository in the scripts detailed below. For each script there is a .html version of it with an R notebook showing the code and output.
 
@@ -118,7 +125,33 @@ Data used by this script:
 "../data/spatial/areasProxyDivGen/PDG.tif") #Proxies div gen 
 ```
 
-* Species distribution models of each species: `"../data/spatial/modelos_darwin_all/*.tif"`
+* Species distribution models of each species: `"../data/spatial/modelos_darwin_all_final/*.tif"`
+
+Output of this script:
+
+* The rasters of proxies of genetic diversity cropped for each taxa: `"../data/spatial/areasProxyDivGen/crop_to_sp/"`.
+* Area of proxies of div gen for each zonation solution: `"../data/comparations_output/sol_tidy_spp.txt"`
+* Proportion of proxi of div gen for each zolnation solution in relation to its area in the sp distribution: `"../data/comparations_output/sol_prop_spp.txt"`
+* Diversity indexes and mean of proportion: `"../data/comparations_output/sols_summary_spp.txt"`
+
+
+#### 3) `spatial_analyses_zonationVSproxiesdivgen_all_WT_final_final_3scenarios.R`
+
+For each taxon crops the proxies of gen div to the species distribution models. Then performs analyses to compare different ways to incorporate the PDG into the Zonation analyses. 
+
+Data used by this script:
+
+* Zonation outputs and proxies of gen div:
+```
+"../data/spatial/Zonation_output/comparacion/01_MDP.rank.compressed.tif", # Zonation output with species only (n=116) #1
+"../data/spatial/Zonation_output/comparacion/02_MDP_ZV.rank.compressed.tif", # Zonation output with species + LZ (n=143) #2
+"../data/spatial/Zonation_output/comparacion/03_MDP_PDG.rank.compressed.tif", # Zonation output with species and PDG (n=218) #3
+"../data/spatial/Zonation_output/comparacion/04_MDP_vs_PDG.rank.compressed.tif", # Zonation output with species vs PDG (n=5004) #4
+"../data/spatial/Zonation_output/comparacion/05_MDP_PDG_ADMU.rank.compressed.tif", # Zonation output with species and PDG as ADMU (n=116+1) #5
+"../data/spatial/areasProxyDivGen/PDG.tif") #Proxies div gen 
+```
+
+* Species distribution models of each species: `"../data/spatial/modelos_darwin_all_final/*.tif"`
 
 Output of this script:
 
@@ -146,11 +179,9 @@ Category.
 * Supplementary Fig. 9. Performance curves quantifying the proportion of taxa
 distribution ranges considering all priority taxa
 
-
 Data used for this script:
 
 * Read IUCN category per taxa: `"../data/spatial/Zonation_final_solutions/IUCN_threat_category.csv"`
-* Zonation curves output: `"../data/spatial/Zonation_final_solutions/E_final_Todos.curves.txt"`
-* Conservation features: `"../data/spatial/Zonation_final_solutions/E_final_Todos.features_info.txt"`
+* Zonation curves output and features for all taxa: `"../data/spatial/Zonation_final_solutions/E_final_Todos.curves.txt"` and `"../data/spatial/Zonation_final_solutions/E_final_Todos.features_info.txt"`
 * Zonation curves output and features but for taxa exclusively distributing in natural vegetation: `"../data/spatial/Zonation_final_solutions/E_final_VegPyS.features_info.txt"` and `"../data/spatial/Zonation_final_solutions/E_final_VegPyS.curves.txt"`.
 * Zonation curves output and features but for taxa associated to different habitats, i.e. natural vegetation, agricultural and urban areas: `"../data/spatial/Zonation_final_solutions/E_final_HabVarios.features_info.txt"` and `"../data/spatial/Zonation_final_solutions/E_final_HabVarios.curves.txt"`.
