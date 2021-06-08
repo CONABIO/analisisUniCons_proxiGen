@@ -8,3 +8,6 @@ graficas_prueba.docx
 .RDataTmp
 .Rapp.history
 .Rhistory
+
+# Ignore archive folder where unused scripts for the ms are stored
+/archive
