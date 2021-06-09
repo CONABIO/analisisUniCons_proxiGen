@@ -75,14 +75,16 @@ File content is the following:
 Figures 2, 5 and Supplementary Figures 1-3, 5-7, 10 and 11 were made in ArcMap with the spatial data and zonation raster outputs detailed above (georeferenced data, species distribution models, zonation outputs, among others).
 
 ## Zonation analyses
-Zonation configuration files are in:`/bin/Zonation`.
+Zonation configuration files are in:`/bin/Zonation_files`.
 
 File contents as follows:
 
-* Zonation configuration file `Zonation_CWR_config_file.dat` (also available at Supplementary Materials 1)
-
-
-
+* Batch files, contain the command line to call Zonation in the cluster: `.sh` files
+* Run settings file, defines the analysis settings: `E_final.dat`
+* Biodiversity feature files, list the biodiversity layers: `.spp` files
+* Condition file; lists the habitat layers: `habitat_features.txt`
+* Groups file; links the biodiversity features to habitat features using habitat groups: `habitat_group_features.txt`
+* Species of Special Interest file; lists observation records for species without potential distribution model: `SSI_list.txt`
 
 ## Analyses in R and Figures
 
