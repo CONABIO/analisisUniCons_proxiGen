@@ -121,33 +121,7 @@ Data used by this script:
 * *Z. m. parviglumis* Q files for K= 25 and K= 13 (admixture output):
 `"../data/genetic/output/admixture/parvi/bytaxa_parviglumis.25.Q"` and `"../data/genetic/output/admixture/parvi/bytaxa_parviglumis.13.Q"`.
 
-#### 2) `spatial_analyses_zonationVSproxiesdivgen_all_WT_final.R`
-
-For each taxon crops the proxies of gen div to the species distribution models. Then performs analyses to compare different ways to incorporate the PDG into the Zonation analyses. 
-
-Data used by this script:
-
-* Zonation outputs and proxies of gen div:
-```
-"../data/spatial/Zonation_output/comparacion/01_MDP.rank.compressed.tif", # Zonation output with species only (n=116) #1
-"../data/spatial/Zonation_output/comparacion/02_MDP_ZV.rank.compressed.tif", # Zonation output with species + LZ (n=143) #2
-"../data/spatial/Zonation_output/comparacion/03_MDP_PDG.rank.compressed.tif", # Zonation output with species and PDG (n=218) #3
-"../data/spatial/Zonation_output/comparacion/04_MDP_vs_PDG.rank.compressed.tif", # Zonation output with species vs PDG (n=5004) #4
-"../data/spatial/Zonation_output/comparacion/05_MDP_PDG_ADMU.rank.compressed.tif", # Zonation output with species and PDG as ADMU (n=116+1) #5
-"../data/spatial/areasProxyDivGen/PDG.tif") #Proxies div gen 
-```
-
-* Species distribution models of each species: `"../data/spatial/modelos_darwin_all_final/*.tif"`
-
-Output of this script:
-
-* The rasters of proxies of genetic diversity cropped for each taxa: `"../data/spatial/areasProxyDivGen/crop_to_sp/"`.
-* Area of proxies of div gen for each zonation solution: `"../data/comparations_output/sol_tidy_spp.txt"`
-* Proportion of proxi of div gen for each zolnation solution in relation to its area in the sp distribution: `"../data/comparations_output/sol_prop_spp.txt"`
-* Diversity indexes and mean of proportion: `"../data/comparations_output/sols_summary_spp.txt"`
-
-
-#### 3) `spatial_analyses_zonationVSproxiesdivgen_all_WT_final_final_3scenarios.R`
+#### 2) `spatial_analyses_zonationVSproxiesdivgen_all_ms.R`
 
 For each taxon crops the proxies of gen div to the species distribution models. Then performs analyses to compare different ways to incorporate the PDG into the Zonation analyses. 
 
@@ -174,7 +148,7 @@ Output of this script:
 
 #### 3) `plot_scenarios_PDG.R`
 
-Uses the data `sols_summary_spp.txt` produced by the script `spatial_analyses_zonationVSproxiesdivgen_all_WT_final.R` to perform the plots of the following figure:
+Uses the data `sols_summary_spp.txt` produced by the script `spatial_analyses_zonationVSproxiesdivgen_all_ms.R` to perform the plots of the following figure:
 
 * Fig 4. Performance of five scenarios to represent conservation features of Mesoamerican crop wild relatives, considering 20% of Mexico’s terrestrial area.
 
