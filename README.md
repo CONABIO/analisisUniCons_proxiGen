@@ -26,9 +26,21 @@ Rasters are named `zv_[1:27].tif`
  Rasters file names are as follow: each of the Holdrige life zones (`zv_[1:27]`) are subdivided with a `_[letter].tif` for each of the PGD for that life zone.
 
 
-### Zonation rasters 
+### Zonation 
 
-Zonation output rasters should be in the directory:
+**Zonation input data** should be in the directory:
+`data/spatial/Zonation_input/`
+
+File contect is the following:
+
+* Biodiversity rasters (.tif); result of the combination of species distribution models (SDM, MDP in Spanish) and proxies of genetic diversity (PDG, PGD in Spanish): MDP_PDG. Raster names have taxon name and PGD, according to each of the Holdrige life zones (zv_[1:27]) subdivided with a _[letter].tif for each of the PGD for that life zone.
+
+* Habitat rasters (.asc): condition_habitat2_final. Raster are named Hab_[taxon_name].asc
+
+* Species of Special Interest files (.txt); observation records for taxa without potential distribution model: puntos. Raster names have taxon name.  
+
+
+**Zonation output rasters** should be in the directory:
 `/data/spatial/Zonation_output/`
 
 File content is the following:
@@ -38,11 +50,9 @@ File content is the following:
 * Zonation output with species and PDG (n=218): `03_MDP_PDG.rank.compressed.tif`
 * Zonation output with species vs PDG (n=5004): `04_MDP_vs_PDG.rank.compressed.tif`
 * Zonation output with species and PDG as ADMU (n=116+1): `05_MDP_PDG_ADMU.rank.compressed.tif`
+ 
 
-
-### Zonation output curves 
-
-Zonation output curves should be in the directory::
+**Zonation output curves** should be in the directory::
 `/data/spatial/Zonation_final_solutions/`
 
 File content is the following:
