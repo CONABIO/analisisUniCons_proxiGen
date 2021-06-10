@@ -10,20 +10,14 @@ Data is available at the Dryad repository XXXXX (available upon aceptance). Ther
 
 ### Spatial raw rasters
 
-* Rasters (.tif) of species distribution models for each of the cwr taxa uses for analyses should be in the directory:
- `/data/spatial/modelos_darwin_all_final`
-
-Raster names have the taxon name.
+* Rasters (.tif) of species distribution models for each of the cwr taxa used for Zonation analyses should be in the directory:
+ `/data/spatial/modelos_darwin_all_final`. Raster names are `[taxon_name.tif`. Raster of *Z. mays* ssp. *parviglumis* as used for Fig. 3 should be in `/data/spatial/modelosDarwinZea/Zea_mays_parviglumis.tif`
  
 * Rasters (.tif) of Holdrige live zones should be in the directory:
- `/data/spatial/zv27`
-
-Rasters are named `zv_[1:27].tif`
+ `/data/spatial/zv27`. Rasters are named `zv_[1:27].tif`
 
  * Rasters (.tif) with proxies of genetic diversity (PDG) should be in the directory:
- `/data/spatial/areasProxyDivGen`
- 
- Rasters file names are as follow: each of the Holdrige life zones (`zv_[1:27]`) are subdivided with a `_[letter].tif` for each of the PGD for that life zone.
+ `/data/spatial/areasProxyDivGen`. Rasters file names are as follow: each of the Holdrige life zones (`zv_[1:27]`) are subdivided with a `_[letter].tif` for each of the PGD for that life zone.
 
 
 ### Zonation 
@@ -33,9 +27,9 @@ Rasters are named `zv_[1:27].tif`
 
 File contect is the following:
 
-* Biodiversity rasters (.tif); result of the combination of species distribution models (SDM, MDP in Spanish) and proxies of genetic diversity (PDG, PGD in Spanish): MDP_PDG. Raster names have taxon name and PGD, according to each of the Holdrige life zones (zv_[1:27]) subdivided with a _[letter].tif for each of the PGD for that life zone.
+* Biodiversity rasters (.tif); result of the combination of species distribution models (SDM, MDP in Spanish) and proxies of genetic diversity (PDG, PGD in Spanish): MDP_PDG. Raster names have `taxon name_` and PGD, according to each of the Holdrige life zones (`zv_[1:27]`) subdivided with a `_[letter].tif` for each of the PGD for that life zone.
 
-* Habitat rasters (.asc): condition_habitat2_final. Raster are named Hab_[taxon_name].asc
+* Habitat rasters (.asc): `condition_habitat2_final`. Raster are named `Hab_[taxon_name].asc
 
 * Species of Special Interest files (.txt); observation records for taxa without potential distribution model: puntos. Raster names have taxon name.  
 
@@ -79,7 +73,6 @@ File content is the following:
 `/data/spatial/Zonation_final_solutions/IUCN_threat_category.csv`
  
 
-
 ## Non-coding analyses and Figures
 
 Figures 2, 5 and Supplementary Figures 1-3, 5-7, 10 and 11 were made in ArcMap with the spatial data and zonation raster outputs detailed above (georeferenced data, species distribution models, zonation outputs, among others).
@@ -101,7 +94,7 @@ File contents as follows:
 Code for analyses and plots made in R is available in the `/bin` directory of this repository in the scripts detailed below. For each script there is a .html version of it with an R notebook showing the code and output.
 
 
-#### 1) `plot_admixture_PGD_teocintles.R`
+#### 1) `plot_admixture_PGD_teocintles.Rmd`
 
 Explores admixture results to perform the plots and map of: 
 
@@ -148,7 +141,7 @@ Output of this script:
 
 #### 3) `plot_scenarios_PDG.R`
 
-Uses the data `sols_summary_spp.txt` produced by the script `spatial_analyses_zonationVSproxiesdivgen_all_ms.R` to perform the plots of the following figure:
+Uses the data `../data/comparations_output/sols_summary_spp.txt` produced by the script `spatial_analyses_zonationVSproxiesdivgen_all_ms.R` to perform the plots of the following figure:
 
 * Fig 4. Performance of five scenarios to represent conservation features of Mesoamerican crop wild relatives, considering 20% of Mexico’s terrestrial area.
 
@@ -171,3 +164,11 @@ Data used for this script:
 * Zonation curves output and features for all taxa: `"../data/spatial/Zonation_final_solutions/E_final_Todos.curves.txt"` and `"../data/spatial/Zonation_final_solutions/E_final_Todos.features_info.txt"`
 * Zonation curves output and features but for taxa exclusively distributing in natural vegetation: `"../data/spatial/Zonation_final_solutions/E_final_VegPyS.features_info.txt"` and `"../data/spatial/Zonation_final_solutions/E_final_VegPyS.curves.txt"`.
 * Zonation curves output and features but for taxa associated to different habitats, i.e. natural vegetation, agricultural and urban areas: `"../data/spatial/Zonation_final_solutions/E_final_HabVarios.features_info.txt"` and `"../data/spatial/Zonation_final_solutions/E_final_HabVarios.curves.txt"`.
+
+
+## Dependencies
+
+Analyses were carried out in Zonation version 4 and in R version 3.5.1. The following R packages were used:
+`purrr_0.3.4`, `tidyr_1.0.2`   `dplyr_1.0.2`   `ggplot2_3.3.3`, `readr_1.4.0`, `gridExtra_2.3`,  `ggnewscale_0.4.5`, `scatterpie_0.1.5`, `pophelper_2.3.1`, `rgdal_1.4-8`, `raster_3.4-5`  and `sp_1.4-4`. Additional dependencies can be consulted in the html notbook of the r scritps (session info section).
+
+
