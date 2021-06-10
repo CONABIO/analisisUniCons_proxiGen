@@ -8,9 +8,14 @@ Alicia Mastretta-Yanes, Tania Urquiza-Haas, Bárbara Goettsch, Angela P. Cuervo 
 
 Data is available at the Dryad repository XXXXX (available upon aceptance). There you could find the data described below. The scripts in `/bin` expect the data organized in the following way:
 
+### CWR occurrence points
+
+Ocurrence points for each of the cwr taxon analysed shold be in the directory: `/data/SDM`. These were dowloaded for each taxon from the Sistema Nacional de Información sobre Biodiversidad de México [(SNIB)](http://www.snib.mx/) and [Global Biodiversity Information Facility](https://www.gbif.org/) and curated as explained in Supporting Materials 1 of the paper.
+
+
 ### Spatial raw rasters
 
-* Rasters (.tif) of species distribution models for each of the cwr taxa used for Zonation analyses should be in the directory:
+* Rasters (.tif) of species distribution models for each of the cwr taxon used for Zonation analyses should be in the directory:
  `/data/spatial/modelos_darwin_all_final`. Raster names are `[taxon_name.tif`. Raster of *Z. mays* ssp. *parviglumis* as used for Fig. 3 should be in `/data/spatial/modelosDarwinZea/Zea_mays_parviglumis.tif`
  
 * Rasters (.tif) of Holdrige live zones should be in the directory:
@@ -76,11 +81,24 @@ Metadata used for the admixture plots are at:
 ### Other
 * Table with IUCN category per taxa: 
 `/data/spatial/Zonation_final_solutions/IUCN_threat_category.csv`
- 
 
 ## Non-coding analyses and Figures
 
 Figures 2, 5 and Supplementary Figures 1-3, 5-7, 10 and 11 were made in ArcMap with the spatial data and zonation raster outputs detailed above (georeferenced data, species distribution models, zonation outputs, among others).
+
+## Species distribution modelling
+
+Species distribution modelling was done using the custom function `MNE.R`, available at [https://github.com/AngelaCrow/MNE_ParientesSilvestresCultivos](https://github.com/AngelaCrow/MNE_ParientesSilvestresCultivos). See that repository for further details.
+
+Data used:
+
+* CWR ocurrence points in .csv: `/data/SDM`. 
+* 19 bioclimatic variables form [Worlclim Version 1.4](http://worldclim.org/)
+* Terrestial ecoregions proposed by [Olson et al. en el 2001](https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world)
+
+
+
+https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world
 
 ## Zonation analyses
 Zonation configuration files are in:`/bin/Zonation_files`.
