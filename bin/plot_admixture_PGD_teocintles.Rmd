@@ -157,24 +157,24 @@ First load raster data of Zea mays spp parviglumis SDM and the PGD that fell wit
 ```{r}
 # path to rasters
 my_rasters<-c("../data/spatial/modelosDarwinZea/Zea_mays_parviglumis.tif", # SDM 
-              "../data/spatial/areasProxyDivGen/crop_to_sp_final/PDG_Zea_mays_parviglumis.tif") #SDM subdivied by Proxies of gen div
+              "../data/spatial/areasProxyDivGen/crop_to_sp/PGD_Zea_mays_parviglumis.tif") #SDM subdivied by Proxies of gen div
 # stack rasters and add nicer name
 parvi_rasters<-stack(my_rasters)
 # check
 names(parvi_rasters)
 # Check projection
-proj4string(parvi_rasters$PDG_Zea_mays_parviglumis)
+proj4string(parvi_rasters$PGD_Zea_mays_parviglumis)
 # change projection to longlat for nicer visualization
 newcrs <- CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
 parvi_rasters<-projectRaster(parvi_rasters, crs=newcrs, method="ngb")
 parvi_rasters<-stack(parvi_rasters)
 ```
 
-Z. m. parviglumis has `r length(unique(getValues(parvi_rasters$PDG_Zea_mays_parviglumis)))-1` PGD distributed like this:
+Z. m. parviglumis has `r length(unique(getValues(parvi_rasters$PGD_Zea_mays_parviglumis)))-1` PGD distributed like this:
 
 ```{r}
 # Get number of cells of each PDG
-table(getValues(parvi_rasters$PDG_Zea_mays_parviglumis))
+table(getValues(parvi_rasters$PGD_Zea_mays_parviglumis))
 ```
 
 
@@ -182,20 +182,20 @@ Plot PGD and sampling points of genetic data.
 
 ```{r, fig.width=15, fig.height=10}
 # crop raster to make it more managable
-parvi_small<- raster::crop(parvi_rasters$PDG_Zea_mays_parviglumis,
+parvi_small<- raster::crop(parvi_rasters$PGD_Zea_mays_parviglumis,
                            y=extent(c(-107, -96 , 15.5, 22)))
 # convert to df to plot with ggplot
 raster_df<-as.data.frame(rasterToPoints(parvi_small, spatial = TRUE))
-raster_df$PDG_Zea_mays_parviglumis<-as.character(raster_df$PDG_Zea_mays_parviglumis)
+raster_df$PGD_Zea_mays_parviglumis<-as.character(raster_df$PGD_Zea_mays_parviglumis)
 # get nice colors
 mycols<-c("grey40","#917031", "#4d6cd0", "#8bbb39", "#c556c5", "#53d06a", "#895dc8", "#42a331", "#d84492", "#69b974", "#d63c48", "#4dc0b1", "#d3542b", "#4b9cd3", "#d2a337", "#9289cf", "#b1b23a", "#9a5398", "#498331", "#cc4668", "#37835d", "#df89be", "#6e7721", "#9b496e", "#b9b06d", "#ac575b", "#65743a", "#e78b7a", "#db873d", "#a2552d")
 # get labels with 0 as "NA" (it is not really NA, just the part of Mx out of the species range). True NA is outside of Mx.
-mylabs<-unique(getValues(parvi_rasters$PDG_Zea_mays_parviglumis))[2:length(unique(getValues(parvi_rasters$PDG_Zea_mays_parviglumis)))] # ommit the first (true NA)
+mylabs<-unique(getValues(parvi_rasters$PGD_Zea_mays_parviglumis))[2:length(unique(getValues(parvi_rasters$PGD_Zea_mays_parviglumis)))] # ommit the first (true NA)
 mylabs[1]<-"NA" # change 0 to "NA"
 mylabs
 # plot PGD raster
 p<- ggplot() +
-    geom_raster(data = raster_df , aes(x = x, y = y, fill = PDG_Zea_mays_parviglumis)) +
+    geom_raster(data = raster_df , aes(x = x, y = y, fill = PGD_Zea_mays_parviglumis)) +
     scale_fill_manual(values= alpha(mycols, 0.5) , name="PGD",
                       labels=mylabs) + # no prevent the area outside the SDM to appear as a PDG 0
     theme_bw() + 
@@ -231,11 +231,11 @@ Mode <- function(x) {
   ux[which.max(tabulate(match(x, ux)))]
 }
 # transform 0 value (out of sp SDM range) to NA so that only PGD are considered
-parvi_rasters$PDG_Zea_mays_parviglumis<-reclassify(parvi_rasters$PDG_Zea_mays_parviglumis, 
+parvi_rasters$PGD_Zea_mays_parviglumis<-reclassify(parvi_rasters$PGD_Zea_mays_parviglumis, 
                                                    rcl=c(0, .1, NA), include.lowest=TRUE)
 # extract the PDG most frequent in a given buffer radio of the sampling point
 # ignoring NA values (see Mode fun)
-PGD_points<-raster::extract(parvi_rasters$PDG_Zea_mays_parviglumis,
+PGD_points<-raster::extract(parvi_rasters$PGD_Zea_mays_parviglumis,
                             buffer=2500, fun=Mode, # so that no points fell in only NAs
                     y=data.frame(long=parvimeta$LONGITUDE,
                                  lat=parvimeta$LATITUDE)) %>%
