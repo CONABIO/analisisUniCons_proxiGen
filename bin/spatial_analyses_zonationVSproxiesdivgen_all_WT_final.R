@@ -12,14 +12,12 @@ library(scales)
 ### Load Zonation outputs and proxies of gen div
 
 # Path to rasters
-myrasters <-c("../data/spatial/Zonation_output/comparacion/01_MDP.rank.compressed.tif", # Zonation output with species only (n=116) #1
-             "../data/spatial/Zonation_output/comparacion/02_MDP_ZV.rank.compressed.tif", # Zonation output with species + LZ (n=143) #2
-             "../data/spatial/Zonation_output/comparacion/03_MDP_PDG.rank.compressed.tif", # Zonation output with species and PDG (n=218) #3
-             "../data/spatial/Zonation_output/comparacion/04_MDP_vs_PDG.rank.compressed.tif", # Zonation output with species vs PDG (n=5004) #4
-             "../data/spatial/Zonation_output/comparacion/05_MDP_PDG_ADMU.rank.compressed.tif", # Zonation output with species and PDG as ADMU (n=116+1) #5
+myrasters <-c("../data/spatial/Zonation_output/01_MDP.rank.compressed.tif", # Zonation output with species only (n=116) #1
+             "../data/spatial/Zonation_output/02_MDP_ZV.rank.compressed.tif", # Zonation output with species + LZ (n=143) #2
+             "../data/spatial/Zonation_output/03_MDP_PDG.rank.compressed.tif", # Zonation output with species and PDG (n=218) #3
+             "../data/spatial/Zonation_output/04_MDP_vs_PDG.rank.compressed.tif", # Zonation output with species vs PDG (n=5004) #4
+             "../data/spatial/Zonation_output/05_MDP_PDG_ADMU.rank.compressed.tif", # Zonation output with species and PDG as ADMU (n=116+1) #5
              "../data/spatial/areasProxyDivGen/PDG.tif") #Proxies div gen #6
-
-# wt NOTE: IF NEEDED, CHANGE LAYER NAMES AND ADJUST Number (e.g. 2:8 -> 2:7; check lines 71, 260, 265)
 
 
 # Stack rasters and add nicer names 
@@ -58,7 +56,6 @@ sols_summary_spp<-character(0) # diversity indexes and mean of proportion
 ZT
 
 # List of spp
-#correr hasta la l?nea 317
 spp<-list.files("../data/spatial/modelos_darwin_all_final/")
 spp
 
@@ -71,7 +68,7 @@ print(spname)
   
 # add to stacks of raster the raster with the sp distribution model
 
-CWR_sp<-stack(CWR, paste0("../data/spatial/modelos_darwin_all/", spp[i])) #  sp model
+CWR_sp<-stack(CWR, paste0("../data/spatial/modelos_darwin_all_final/", spp[i])) #  sp model
 names(CWR_sp)[7]<-"ENM_sp"
 
 # plot
@@ -88,6 +85,7 @@ writeRaster(sp_ProxiesDivGen, format= "GTiff", file= paste0("../data/spatial/are
 
 ### convert to rasters to points to have a "df of overlaps"
 CWR_overlaps<-as.data.frame(rasterToPoints(CWR_sp))
+
 
 ##### calcs for each solution
 
@@ -107,7 +105,7 @@ names(sol_base)<-c("ProxiDivGen", "ENM_sp")
 #ggplot(x, aes(ProxiesDivGen)) + geom_bar() + ggtitle(paste("Areas Proxi of Genetic Diversity for", spp[i]))
 
 
-##### 2) CWRsp + Zonation_SPP
+##### 2) CWRsp + Scenario_SDM
 
 ### calcs
 ## subet
@@ -122,7 +120,7 @@ names(sol_Z_MDP)<-c("ProxiDivGen", "Scenario_SDM")
 # ggplot(x, aes(ProxiesDivGen)) + geom_bar() + ggtitle(paste(spname,"conserved under ZonationSPP at", ZT))
 
 
-##### 3) CWRsp + Zonation SPPyPGD
+##### 3) CWRsp + Scenario_SDM_LZ
 
 ### calcs
 ## subet
@@ -139,7 +137,7 @@ names(sol_Z_MDP_LZ)<-c("ProxiDivGen", "Scenario_SDM_LZ")
 # ggplot(x, aes(ProxiesDivGen)) + geom_bar() + ggtitle(paste(spname, "conserved under ZonationLZ at", ZT))
 
 
-##### 4) CWRsp + Zonation SPPvsPGD publicado en sintesis
+##### 4) CWRsp + Scenario_SDM_PGD 
 
 ### calcs
 ## subet
@@ -155,7 +153,7 @@ names(sol_Z_MDP_PGD)<-c("ProxiDivGen", "Scenario_SDM_PGD")
 # ggplot(x, aes(ProxiesDivGen)) + geom_bar() + ggtitle(paste(spname, "conserved under ZonationProxiDivGen at", ZT))
 
 
-##### 5) CWRsp + Zonation SPPvsPGD new IUCN cat
+##### 5) CWRsp + Scenario_SDM_vs_PGD 
 
 ### calcs
 ## subet
@@ -172,7 +170,7 @@ names(sol_Z_MDP_vs_PGD)<-c("ProxiDivGen", "Scenario_SDM_vs_PGD")
 #ggplot(x, aes(ProxiesDivGen)) + geom_bar() + ggtitle(paste(spname, "conserved under ZonationProxiDivGenvsSPP at", ZT))
 
 
-##### 6) CWRsp + Zonation Zonation SPPvsPGD new IUCN cat + BLP
+##### 6) CWRsp + Scenario_SDM_PGD_ADMU
 
 ### calcs
 ## subet
@@ -197,7 +195,7 @@ names(sol_Z_MDP_PGD_ADMU)<-c("ProxiDivGen", "Scenario_SDM_PGD_ADMU")
 # Join all solutions
 sol_all<-left_join(sol_base, sol_Z_MDP) %>% left_join(., sol_Z_MDP_LZ) %>% left_join(., sol_Z_MDP_PGD) %>% 
   left_join(., sol_Z_MDP_vs_PGD) %>% left_join(., sol_Z_MDP_PGD_ADMU) %>% 
-  mutate_all(funs(replace(., is.na(.), 0))) # NAs are actually 0s
+  replace(is.na(.), 0)# NAs are actually 0s
 head(sol_all)
 
 # gather into tidy df
@@ -280,10 +278,10 @@ indices.div$simpson<-diversity(abundance.matrix, index="simpson")
 
 #### Distance among conserving the whole distribution of the sp ("optimun scenario possible") and Zonation solutions
 
-sol_dist<-data.frame(Solution=c("ENM_sp", "Zonation_SPP", "Zonation_SPPyPGD", "Zonation_sintesis" ,"Zonation_new" ,"Zonation_newBLP"),
+sol_dist<-data.frame(Solution=c("ENM_sp", "Scenario_SDM", "Scenario_SDM_LZ", "Scenario_SDM_PGD" ,"Scenario_SDM_vs_PGD" ,"Scenario_SDM_PGD_ADMU"),
                      Dist.to.Optimun=c(as.vector(dist(rbind(sol_all$ENM_sp, sol_all$ENM_sp))),
                                        as.vector(dist(rbind(sol_all$ENM_sp, sol_all$Scenario_SDM))),
-                                       as.vector(dist(rbind(sol_all$ENM_sp,sol_all$ Scenario_SDM_LZ))),
+                                       as.vector(dist(rbind(sol_all$ENM_sp, sol_all$Scenario_SDM_LZ))),
                                        as.vector(dist(rbind(sol_all$ENM_sp, sol_all$Scenario_SDM_PGD))),
                                        as.vector(dist(rbind(sol_all$ENM_sp, sol_all$Scenario_SDM_vs_PGD))),
                                        as.vector(dist(rbind(sol_all$ENM_sp, sol_all$Scenario_SDM_PGD_ADMU)))))
@@ -317,3 +315,6 @@ write.csv(sol_prop_spp, "../data/comparations_output/sol_prop_spp.txt", row.name
 write.csv(sols_summary_spp, "../data/comparations_output/sols_summary_spp.txt", row.names=FALSE, quote = FALSE)
 
 # Plots are done in the script plot_scenarios_PDG.R
+
+## Get session info
+sessionInfo()
