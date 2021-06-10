@@ -47,7 +47,8 @@ File content is the following:
 * Zonation output with species only (n=116): `01_MDP.rank.compressed.tif"` 
 * Zonation output with species + LZ (n=143): `02_MDP_ZV.rank.compressed.tif"`
 * Zonation output with species and PDG (n=218): `03_MDP_PDG.rank.compressed.tif`
-* Zonation output with species vs PDG (n=5004): `04_MDP_vs_PDG.rank.compressed.tif`
+* Zonation output
+*  with species vs PDG (n=5004): `04_MDP_vs_PDG.rank.compressed.tif`
 * Zonation output with species and PDG as ADMU (n=116+1): `05_MDP_PDG_ADMU.rank.compressed.tif`
  
 
@@ -96,9 +97,6 @@ Data used:
 * 19 bioclimatic variables form [Worlclim Version 1.4](http://worldclim.org/)
 * Terrestial ecoregions proposed by [Olson et al. en el 2001](https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world)
 
-
-
-https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world
 
 ## Zonation analyses
 Zonation configuration files are in:`/bin/Zonation_files`.
