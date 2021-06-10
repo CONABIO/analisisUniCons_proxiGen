@@ -67,6 +67,11 @@ File content is the following:
 * Admixture output K error for CV analysis: `Kerror_parviglumis.txt`
 * Admixture Q files for K= 25 and K= 13: `bytaxa_parviglumis.25.Q` and `bytaxa_parviglumis.13.Q"`
 
+Metadata used for the admixture plots are at:
+
+* Passport data for each sample: `/data/genetic/output/ADN_pasap_3604.txt`
+* Fam file with sample list: `/data/genetic/output/bytaxa_parviglumis.fam`
+
 
 ### Other
 * Table with IUCN category per taxa: 
@@ -113,6 +118,8 @@ Data used by this script:
 * *Z. m. parviglumis* CV error (admixture output): `"../data/genetic/output/admixture/parvi/Kerror_parviglumis.txt"`
 * *Z. m. parviglumis* Q files for K= 25 and K= 13 (admixture output):
 `"../data/genetic/output/admixture/parvi/bytaxa_parviglumis.25.Q"` and `"../data/genetic/output/admixture/parvi/bytaxa_parviglumis.13.Q"`.
+* Passport data for each sample: `"../data/genetic/output/ADN_pasap_3604.txt"`
+* Fam file with sample list: `"../data/genetic/output/bytaxa_parviglumis.fam"`
 
 #### 2) `spatial_analyses_zonationVSproxiesdivgen_all_ms.R`
 
