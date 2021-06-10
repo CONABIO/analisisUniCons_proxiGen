@@ -94,8 +94,15 @@ Species distribution modelling was done using the custom function `MNE.R`, avail
 Data used:
 
 * CWR ocurrence points in .csv: `/data/SDM`. 
-* 19 bioclimatic variables form [Worlclim Version 1.4](http://worldclim.org/)
+* 19 bioclimatic variables form [Worlclim Version 1.4](http://worldclim.org/) from **1**.
 * Terrestial ecoregions proposed by [Olson et al. en el 2001](https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world)
+* Evapotranspiration, aridity index, annual radiation data from **2-3**.
+* Bare soil and cultivated areas from **4**.
+
+1.	Hijmans, R. J., Cameron, S. E., Parra, J. L., Jones, P. G. & Jarvis, A. Very high resolution interpolated climate surfaces for global land areas. Int. J. Climatol. 25, 1965–1978 (2005).
+2.	Zomer, R. J., Trabucco, A., Van Straaten, O. & Bossio, D. A. Carbon, Land and Water: A Global Analysis of the Hydrologic Dimensions of Climate Change Mitigation through Afforestation/Reforestation. International Water Management Institute 101, (2006).
+3.	Trabucco, A. & Zomer, R. Global Aridity Index (Global-Aridity) and Global Potential Evapo-Transpiration (Global-PET) Geospatial Database. (2009).
+4.	Tuanmu, M. N. & Jetz, W. A global 1-km consensus land-cover product for biodiversity and ecosystem modelling. Glob. Ecol. Biogeogr. 23, 1031–1045 (2014).
 
 
 ## Zonation analyses
