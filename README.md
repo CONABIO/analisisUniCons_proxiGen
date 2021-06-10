@@ -33,9 +33,9 @@ Rasters are named `zv_[1:27].tif`
 
 File contect is the following:
 
-* Biodiversity rasters (.tif); result of the combination of species distribution models (SDM, MDP in Spanish) and proxies of genetic diversity (PDG, PGD in Spanish): MDP_PDG. Raster names have taxon name and PGD, according to each of the Holdrige life zones (zv_[1:27]) subdivided with a _[letter].tif for each of the PGD for that life zone.
+* Biodiversity rasters (.tif); result of the combination of species distribution models (SDM, MDP in Spanish) and proxies of genetic diversity (PDG, PGD in Spanish): MDP_PDG. Raster names have `taxon name_` and PGD, according to each of the Holdrige life zones (`zv_[1:27]`) subdivided with a `_[letter].tif` for each of the PGD for that life zone.
 
-* Habitat rasters (.asc): condition_habitat2_final. Raster are named Hab_[taxon_name].asc
+* Habitat rasters (.asc): `condition_habitat2_final`. Raster are named `Hab_[taxon_name].asc
 
 * Species of Special Interest files (.txt); observation records for taxa without potential distribution model: puntos. Raster names have taxon name.  
 
@@ -148,7 +148,7 @@ Output of this script:
 
 #### 3) `plot_scenarios_PDG.R`
 
-Uses the data `sols_summary_spp.txt` produced by the script `spatial_analyses_zonationVSproxiesdivgen_all_ms.R` to perform the plots of the following figure:
+Uses the data `../data/comparations_output/sols_summary_spp.txt` produced by the script `spatial_analyses_zonationVSproxiesdivgen_all_ms.R` to perform the plots of the following figure:
 
 * Fig 4. Performance of five scenarios to represent conservation features of Mesoamerican crop wild relatives, considering 20% of Mexico’s terrestrial area.
 
@@ -171,3 +171,11 @@ Data used for this script:
 * Zonation curves output and features for all taxa: `"../data/spatial/Zonation_final_solutions/E_final_Todos.curves.txt"` and `"../data/spatial/Zonation_final_solutions/E_final_Todos.features_info.txt"`
 * Zonation curves output and features but for taxa exclusively distributing in natural vegetation: `"../data/spatial/Zonation_final_solutions/E_final_VegPyS.features_info.txt"` and `"../data/spatial/Zonation_final_solutions/E_final_VegPyS.curves.txt"`.
 * Zonation curves output and features but for taxa associated to different habitats, i.e. natural vegetation, agricultural and urban areas: `"../data/spatial/Zonation_final_solutions/E_final_HabVarios.features_info.txt"` and `"../data/spatial/Zonation_final_solutions/E_final_HabVarios.curves.txt"`.
+
+
+## Dependencies
+
+Analyses were carried out in Zonation version 4 and in R version 3.5.1. The following R packages were used:
+`purrr_0.3.4`, `tidyr_1.0.2`   `dplyr_1.0.2`   `ggplot2_3.3.3`. Additional dependencies can be consulted in the html notbook of the r scritps (session info section).
+
+
