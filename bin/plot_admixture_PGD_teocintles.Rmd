@@ -1,0 +1,332 @@
+---
+title: "plot_admixture_PGD_teocintles"
+output: html_document
+---
+
+```{r}
+library(raster)
+library(rgdal)
+library(dplyr)
+library(readr)
+library(ggplot2)
+library(pophelper)
+library(scatterpie)
+library(ggnewscale)
+library(gridExtra)
+```
+
+First plot CV 
+```{r}
+### parvi
+parvi_CV<-read.delim("../data/genetic/output/admixture/parvi/Kerror_parviglumis.txt", 
+                    sep=" ", header=FALSE, stringsAsFactors = FALSE) %>%
+                    mutate(K = parse_number(V3)) %>% 
+                    dplyr::select(K, V4) %>% rename(CV=V4)
+## Plot CV
+p <- ggplot(parvi_CV, aes(x=K, y=CV)) + geom_point(size=1) + geom_line()  
+p + theme(axis.title.x = element_text(face="bold", size=20),
+          axis.text.x  = element_text(angle=90, vjust=0.5, size=16),
+          axis.title.y = element_text(face="bold", size=20),
+          axis.text.y  = element_text(size=16)) +
+  ggtitle(label = "Z. m. parviglumis")
+```
+
+
+The CV error of the Admixture analysis doesn't show a clear K value, so we chose those K values where the slope changes for each species. For ** Z. m. parviglumis** this is K=13 and K=25, and for **Z. m. mexicana** K= 5, K=10 and K=20.
+
+
+## Z. m. parviglumis
+
+Load admixture Q data and samples metadata
+
+```{r}
+# get data
+parvifiles<-c("../data/genetic/output/admixture/parvi/bytaxa_parviglumis.25.Q",
+              "../data/genetic/output/admixture/parvi/bytaxa_parviglumis.13.Q")
+parvi_list<- readQ(parvifiles)
+# Check
+attributes(parvi_list)
+# Get metadata
+meta<-read.delim("../data/genetic/output/ADN_pasap_3604.txt")
+parviPlinksamples<-read.table("../data/genetic/output/bytaxa_parviglumis.fam")
+parvimeta<-meta[meta$POBL %in% parviPlinksamples$V2, ]
+levels(parvimeta$ESTADO)[13]<-"EdoMex"
+levels(parvimeta$ESTADO)[14]<-"Michoacan"
+# add sample metadata to qlist
+attributes(parvi_list[[1]])$row.names<-as.character(parvimeta$POBL)
+attributes(parvi_list[[2]])$row.names<-as.character(parvimeta$POBL)
+# drop unused levels
+parvimeta<-droplevels(parvimeta)
+```
+
+Plot Qvals of both Ks of interest:
+
+```{r, fig.width=30, fig.height=10}
+p1 <- plotQ(alignK(parvi_list[1:2]),
+            sortind = "all",
+            imgoutput="join", returnplot=T, sharedindlab=FALSE,
+            exportplot=F,basesize=11)
+grid.arrange(p1$plot[[1]])
+```
+
+Plot only K=13 ordering by all genetic clusters
+
+```{r, fig.width=40, fig.height=10}
+p1<-plotQ(parvi_list[2],
+            returnplot=T,
+            exportplot=F,
+            sortind = "all", basesize = 11,
+           # showindlab= TRUE, useindlab=TRUE, indlabangle=90, indlabsize=0.1,
+      exportpath = "../data/genetic/output/admixture/parvi")
+plot(p1$plot[[1]])
+```
+
+Scatterpies of admixture groups
+
+```{r, fig.width=15, fig.height=10}
+# Read raw Qval file
+Qval<-read.table(paste0("../data/genetic/output/admixture/parvi/bytaxa_parviglumis.13.Q"))
+names(Qval)<-paste0("K", 1:ncol(Qval))
+# add metadata
+Qval<-cbind(parvimeta$POB, parvimeta$INDIV, parvimeta$LONGITUDE, parvimeta$LATITUDE, Qval)
+names(Qval)[1:4]<-c("POB", "INDIV", "LONGITUDE", "LATITUDE") 
+# generate same colors than the ones used for admixture plot
+piecolors<-gplots::rich.colors(13)
+# plot scatterpie
+ppie1<- ggplot() + geom_scatterpie(data=Qval,
+                           aes(x=LONGITUDE, 
+                               y=LATITUDE,
+                               group=POB),
+                               color=NA,
+                               cols=paste0("K", 1:13)) +
+ scale_fill_manual(values= piecolors,
+                    name="Genetic cluster") + theme_bw()
+  
+ppie1
+```
+
+Adding populations names:
+
+```{r, fig.width=28, fig.height=20}
+# plot scatterpie
+ppie1 + geom_text(data=parvimeta,
+                      aes(x=parvimeta$LONGITUDE,
+                          y=parvimeta$LATITUDE,
+                          label=POB),
+                      color="grey40",
+                     check_overlap = T,
+                      hjust = 0, vjust=1, nudge_x = 0.0005,
+                 size= 5.5)
+```
+
+
+Plot ordering populations in geographical order
+
+```{r,fig.width=40, fig.height=12}
+# Get longitudinal order
+df<-data.frame(POB=parvimeta$POB, LONGITUDE=parvimeta$LONGITUDE) %>%
+    unique() %>%
+    arrange(LONGITUDE)
+unique(df$POB)
+# set levels of Pops in longitudinal order
+desired_order<-unique(df$POB)
+parvimeta$POBorder<-factor(parvimeta$POB, levels = desired_order)
+# change levels so that they sort in that order alphabetically
+levels(parvimeta$POBorder)<-paste0(1:34, levels(parvimeta$POBorder))
+levels(parvimeta$POBorder)[1:9]<-paste0("0", levels(parvimeta$POBorder)[1:9])
+# set labels
+labset2<-data.frame(POBorder=as.character(parvimeta$POBorder), 
+                    ESTADO=as.character(parvimeta$ESTADO), stringsAsFactors = FALSE)
+#plot
+p<-plotQ(parvi_list[2],
+            returnplot=T,
+            exportplot=F,
+            sortind = "all",
+      grplab=labset2, 
+      ordergrp=TRUE, 
+      grplabangle= 45, grplabsize=10, linesize=2, divsize = 2, grplabheight= 2, grplabpos=0.5,
+      exportpath = "../data/genetic/output/admixture/parvi")
+plot(p$plot[[1]])
+```
+
+
+Extract in which PGD do the sampled individuals fall. This would be used to then add this information to the plot and see how well PGD correspond to genetic clusters.
+
+First load raster data of Zea mays spp parviglumis SDM and the PGD that fell within it:
+
+```{r}
+# path to rasters
+my_rasters<-c("../data/spatial/modelosDarwinZea/Zea_mays_parviglumis.tif", # SDM 
+              "../data/spatial/areasProxyDivGen/crop_to_sp_final/PDG_Zea_mays_parviglumis.tif") #SDM subdivied by Proxies of gen div
+# stack rasters and add nicer name
+parvi_rasters<-stack(my_rasters)
+# check
+names(parvi_rasters)
+# Check projection
+proj4string(parvi_rasters$PDG_Zea_mays_parviglumis)
+# change projection to longlat for nicer visualization
+newcrs <- CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
+parvi_rasters<-projectRaster(parvi_rasters, crs=newcrs, method="ngb")
+parvi_rasters<-stack(parvi_rasters)
+```
+
+Z. m. parviglumis has `r length(unique(getValues(parvi_rasters$PDG_Zea_mays_parviglumis)))-1` PGD distributed like this:
+
+```{r}
+# Get number of cells of each PDG
+table(getValues(parvi_rasters$PDG_Zea_mays_parviglumis))
+```
+
+
+Plot PGD and sampling points of genetic data.
+
+```{r, fig.width=15, fig.height=10}
+# crop raster to make it more managable
+parvi_small<- raster::crop(parvi_rasters$PDG_Zea_mays_parviglumis,
+                           y=extent(c(-107, -96 , 15.5, 22)))
+# convert to df to plot with ggplot
+raster_df<-as.data.frame(rasterToPoints(parvi_small, spatial = TRUE))
+raster_df$PDG_Zea_mays_parviglumis<-as.character(raster_df$PDG_Zea_mays_parviglumis)
+# get nice colors
+mycols<-c("grey40","#917031", "#4d6cd0", "#8bbb39", "#c556c5", "#53d06a", "#895dc8", "#42a331", "#d84492", "#69b974", "#d63c48", "#4dc0b1", "#d3542b", "#4b9cd3", "#d2a337", "#9289cf", "#b1b23a", "#9a5398", "#498331", "#cc4668", "#37835d", "#df89be", "#6e7721", "#9b496e", "#b9b06d", "#ac575b", "#65743a", "#e78b7a", "#db873d", "#a2552d")
+# get labels with 0 as "NA" (it is not really NA, just the part of Mx out of the species range). True NA is outside of Mx.
+mylabs<-unique(getValues(parvi_rasters$PDG_Zea_mays_parviglumis))[2:length(unique(getValues(parvi_rasters$PDG_Zea_mays_parviglumis)))] # ommit the first (true NA)
+mylabs[1]<-"NA" # change 0 to "NA"
+mylabs
+# plot PGD raster
+p<- ggplot() +
+    geom_raster(data = raster_df , aes(x = x, y = y, fill = PDG_Zea_mays_parviglumis)) +
+    scale_fill_manual(values= alpha(mycols, 0.5) , name="PGD",
+                      labels=mylabs) + # no prevent the area outside the SDM to appear as a PDG 0
+    theme_bw() + 
+    labs(x="", y= "") + theme(text = element_text(size = 25))
+# add sampling points
+p + geom_point(data=parvimeta, aes(x=LONGITUDE, 
+                                   y=LATITUDE))
+```
+
+Plot scatterpies with genetic groups
+
+```{r, fig.width=15, fig.height=10}
+p_piemap<-p + new_scale("fill") + # this is needed because raster and pie have diff fills
+          geom_scatterpie(data=Qval,
+                                   aes(x=LONGITUDE, 
+                                       y=LATITUDE,
+                                       group=POB),
+                                       color="NA",
+                                       cols=paste0("K", 1:13)) +
+         scale_fill_manual(values= piecolors,
+                            name="Genetic cluster") +
+          labs(x="", y= "") + theme(text = element_text(size = 25))
+p_piemap
+```
+
+
+Extract in which PGD each genetic sample falls:
+
+```{r}
+# Create function to estimate the mode, omitting na values
+Mode <- function(x) {
+  ux <- unique(na.omit(x))
+  ux[which.max(tabulate(match(x, ux)))]
+}
+# transform 0 value (out of sp SDM range) to NA so that only PGD are considered
+parvi_rasters$PDG_Zea_mays_parviglumis<-reclassify(parvi_rasters$PDG_Zea_mays_parviglumis, 
+                                                   rcl=c(0, .1, NA), include.lowest=TRUE)
+# extract the PDG most frequent in a given buffer radio of the sampling point
+# ignoring NA values (see Mode fun)
+PGD_points<-raster::extract(parvi_rasters$PDG_Zea_mays_parviglumis,
+                            buffer=2500, fun=Mode, # so that no points fell in only NAs
+                    y=data.frame(long=parvimeta$LONGITUDE,
+                                 lat=parvimeta$LATITUDE)) %>%
+            as.character()
+PGD_points<-parvimeta %>% dplyr::select(LONGITUDE, LATITUDE, DNASample, POB, POBorder, POBL) %>%
+                  mutate(PGD_points=PGD_points) 
+table(PGD_points$PGD_points)
+# check if there are samples that did not fell in any PGD
+sum(is.na(PGD_points$PGD_points)) 
+PGD_points[is.na(PGD_points$PGD_points), ]
+```
+
+Remove genetic samples that did not fell in any PGD
+
+```{r}
+# check original n
+nrow(PGD_points)
+# get samples names that FELL in PGD
+PGD_points<-PGD_points[!is.na(PGD_points$PGD_points), ]
+fell_in_PGD<-as.character(PGD_points$POBL)
+# check how many samples we have now
+length(fell_in_PGD)
+# keep only samples that fell in PGD in the admixture data
+# get rows matching fell in PGD
+x<-attributes(parvi_list[[2]])$row.names %in% fell_in_PGD
+# subset list
+subset_admix_list<-list(parvi_list[[2]][x,])
+names(subset_admix_list)<-names(parvi_list[2])
+```
+
+Use this information to see in which genetic group our PGD fall:
+
+```{r, fig.width=40, fig.height=10}
+## order PGD
+# set levels of PGD more or less in lontigitudinal order
+desired_order<-c("48", "36", "10", "5", "15", "11" , "37", "6", "84", "43", "8", "40", "41")
+PGD_points$PGD_order<-factor(PGD_points$PGD_points, levels = desired_order)
+# change levels so that they sort in that order alphabetically
+levels(PGD_points$PGD_order)<-paste0(1:13, "_",levels(PGD_points$PGD_order))
+levels(PGD_points$PGD_order)[1:9]<-paste0("0", levels(PGD_points$PGD_order)[1:9])
+# set labels
+labsetPGD<-data.frame(PGD_points=as.character(PGD_points$PGD_order),
+                      POBorder=as.character(PGD_points$POBorder),
+                      stringsAsFactors = FALSE)
+p3<-plotQ(subset_admix_list[1],
+            returnplot=T,
+            exportplot=F,
+            sortind = "all",
+      grplab=labsetPGD, selgrp = "PGD_points",
+      ordergrp=T, 
+      grplabangle= 90, grplabsize=8, linesize=3, divsize = 3.5,
+      exportpath = getwd(), height = 20, width = 80)
+plot(p3$plot[[1]])
+```
+
+Omit labels for plot for the paper and save as png:
+
+```{r, fig.width=30, fig.height=5}
+p3<-plotQ(subset_admix_list[1], 
+            returnplot=T,
+            exportplot=T,
+            sortind = "all",
+      grplab=labsetPGD, selgrp = "PGD_points",
+      ordergrp=T, 
+      grplabangle= 90, grplabsize=8, divsize = 1,
+      showgrplab= FALSE, splab="",
+      exportpath = getwd(), height = 2.5, width = 15,
+      outputfilename="../figures/parviglumis13Q_subsetPGD")
+```
+
+Save map for paper plot:
+
+```{r, fig.height = 10, fig.width = 15}
+p_piemap<-p + theme(legend.position = "none") +
+          new_scale("fill") + # this is needed because raster and pie have diff fills
+          geom_scatterpie(data=Qval,
+                                   aes(x=LONGITUDE, 
+                                       y=LATITUDE,
+                                       group=POB),
+                                       color="NA",
+                                       cols=paste0("K", 1:13)) +
+         scale_fill_manual(values= piecolors)+
+         labs(x="", y= "") + theme(text = element_text(size = 15))
+# save to file
+ggsave("../figures/piemap_parviglumis_pgd.png",
+       plot=p_piemap, dpi=72,
+       width=15, height = 10, units="cm")
+```
+
+Get session info:
+
+```{r}
+sessionInfo()
+```
