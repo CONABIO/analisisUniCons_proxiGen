@@ -28,14 +28,6 @@ group_by(sols_summary_spp, Solution) %>%
 
 ## Violin plots
 
-# dist to optimun
-
-filter(sols_summary_spp, Solution!="ENM_sp") %>%
-  ggplot(., aes(x=Solution, y=Dist.to.Optimun, color=Solution)) + geom_violin() + geom_jitter(size = 0.3) +
-  stat_summary(fun.y=mean, geom="point", color="red") +
-  theme(axis.text.x = element_blank()) +
-  scale_y_continuous(name="Distance to Optimun")
-
 # Simpson
 
 filter(sols_summary_spp, Solution!="ENM_sp") %>%
@@ -214,3 +206,6 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
 }
 
 multiplot(plot_a, plot_b, cols=2)
+
+# Get session info
+sessionInfo()

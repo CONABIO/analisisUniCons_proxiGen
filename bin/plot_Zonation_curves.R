@@ -421,3 +421,5 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
 
 multiplot(plot.a, plot.b, plot.c, cols=1)
 
+#### Get session info
+sessionInfo()
