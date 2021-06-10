@@ -114,7 +114,7 @@ Data used by this script:
 
 
 * *Zea mays parviglumis* SDM: `"../data/spatial/modelosDarwinZea/Zea_mays_parviglumis.tif"`
-* Proxies of Genetic Diversity croped for *Z. m. parviglumis* SDM:`"../data/spatial/areasProxyDivGen/crop_to_sp_final/PDG_Zea_mays_parviglumis.tif"`
+* Proxies of Genetic Diversity croped for *Z. m. parviglumis* SDM:`"../data/spatial/areasProxyDivGen/crop_to_sp/PGD_Zea_mays_parviglumis.tif"`
 * *Z. m. parviglumis* CV error (admixture output): `"../data/genetic/output/admixture/parvi/Kerror_parviglumis.txt"`
 * *Z. m. parviglumis* Q files for K= 25 and K= 13 (admixture output):
 `"../data/genetic/output/admixture/parvi/bytaxa_parviglumis.25.Q"` and `"../data/genetic/output/admixture/parvi/bytaxa_parviglumis.13.Q"`.
