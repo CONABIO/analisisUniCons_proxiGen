@@ -32,7 +32,7 @@ p + theme(axis.title.x = element_text(face="bold", size=20),
 ```
 
 
-The CV error of the Admixture analysis doesn't show a clear K value, so we chose those K values where the slope changes for each species. For ** Z. m. parviglumis** this is K=13 and K=25, and for **Z. m. mexicana** K= 5, K=10 and K=20.
+The CV error of the Admixture analysis doesn't show a clear K value, so we chose those K values where the slope changes for each species. For ** Z. m. parviglumis** this is K=13 and K=25.
 
 
 ## Z. m. parviglumis
@@ -247,6 +247,12 @@ table(PGD_points$PGD_points)
 sum(is.na(PGD_points$PGD_points)) 
 PGD_points[is.na(PGD_points$PGD_points), ]
 ```
+
+Save PGD points to be used in PCAdapt plot
+```{r}
+write.csv(PGD_points, "../data/genetic/output/PGD_points_parvi.txt")
+```
+
 
 Remove genetic samples that did not fell in any PGD
 
