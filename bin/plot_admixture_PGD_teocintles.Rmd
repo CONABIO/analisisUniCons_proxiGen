@@ -330,7 +330,7 @@ p_piemap<-p + theme(legend.position = "none") +
          labs(x="", y= "") + theme(text = element_text(size = 15))
 # save to file
 ggsave("../figures/piemap_parviglumis_pgd.png",
-       plot=p_piemap, dpi=72,
+       plot=p_piemap, dpi=300,
        width=15, height = 10, units="cm")
 ```
 
@@ -347,14 +347,15 @@ p_PGDmap<- ggplot()  +
     theme_bw() + 
     labs(x="", y= "") + theme(text = element_text(size = 15)) +
 # add sampling points
-geom_point(data=parvimeta, aes(x=LONGITUDE, 
-                                   y=LATITUDE)) +
+geom_point(data=parvimeta, size=0.3,
+           aes(x=LONGITUDE, 
+           y=LATITUDE)) +
 theme(legend.position = "none")
-
+p_PGDmap
 
 # save file
 ggsave("../figures/PGDmap_parviglumis_pgd.png",
-       plot=p_PGDmap, dpi=72,
+       plot=p_PGDmap, dpi=300,
        width=15, height = 10, units="cm")
 ```
 
