@@ -198,7 +198,7 @@ length(mycols)
 # plot PGD raster
 p<- ggplot() +
     geom_raster(data = raster_df , aes(x = x, y = y, fill = PGD_Zea_mays_parviglumis)) +
-    scale_fill_manual(values = alpha(mycols, 0.5) , name="PGD",
+    scale_fill_manual(values = mycols, name="PGD",
                       labels = mylabs,
                       breaks = mylabs) + # no prevent the area outside the SDM to appear as a PDG 0
     theme_bw() + 
@@ -341,7 +341,7 @@ Save sampling points over PGD map for paper plot:
 # plot PGD raster
 p_PGDmap<- ggplot()  +
                 geom_raster(data = raster_df , aes(x = x, y = y, fill = PGD_Zea_mays_parviglumis)) +
-                scale_fill_manual(values = alpha(mycols, 0.5) , name="PGD",
+                scale_fill_manual(values = mycols, name="PGD",
                                   labels = mylabs,
                                   breaks = mylabs) + # no prevent the area outside the SDM to appear as a PDG 0
     theme_bw() + 
