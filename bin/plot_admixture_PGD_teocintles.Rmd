@@ -315,7 +315,7 @@ p3<-plotQ(subset_admix_list[1],
       outputfilename="../figures/parviglumis13Q_subsetPGD")
 ```
 
-Save map for paper plot:
+Save pie map for paper plot:
 
 ```{r, fig.height = 10, fig.width = 15}
 p_piemap<-p + theme(legend.position = "none") +
@@ -333,6 +333,31 @@ ggsave("../figures/piemap_parviglumis_pgd.png",
        plot=p_piemap, dpi=72,
        width=15, height = 10, units="cm")
 ```
+
+
+Save sampling points over PGD map for paper plot:
+
+```{r}
+# plot PGD raster
+p_PGDmap<- ggplot()  +
+                geom_raster(data = raster_df , aes(x = x, y = y, fill = PGD_Zea_mays_parviglumis)) +
+                scale_fill_manual(values = alpha(mycols, 0.5) , name="PGD",
+                                  labels = mylabs,
+                                  breaks = mylabs) + # no prevent the area outside the SDM to appear as a PDG 0
+    theme_bw() + 
+    labs(x="", y= "") + theme(text = element_text(size = 15)) +
+# add sampling points
+geom_point(data=parvimeta, aes(x=LONGITUDE, 
+                                   y=LATITUDE)) +
+theme(legend.position = "none")
+
+
+# save file
+ggsave("../figures/PGDmap_parviglumis_pgd.png",
+       plot=p_PGDmap, dpi=72,
+       width=15, height = 10, units="cm")
+```
+
 
 
 Get session info:

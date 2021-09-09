@@ -690,7 +690,7 @@ plot(p3$plot[[1]])</code></pre>
       outputfilename=&quot;../figures/parviglumis13Q_subsetPGD&quot;)</code></pre>
 <pre><code>## Drawing plot ...</code></pre>
 <pre><code>## /LUSTRE/Genetica/amastre/teocintle/analisisUniCons_proxiGen/bin/../figures/parviglumis13Q_subsetPGD.png exported.</code></pre>
-<p>Save map for paper plot:</p>
+<p>Save pie map for paper plot:</p>
 <pre class="r"><code>p_piemap&lt;-p + theme(legend.position = &quot;none&quot;) +
           new_scale(&quot;fill&quot;) + # this is needed because raster and pie have diff fills
           geom_scatterpie(data=Qval,
@@ -704,6 +704,27 @@ plot(p3$plot[[1]])</code></pre>
 # save to file
 ggsave(&quot;../figures/piemap_parviglumis_pgd.png&quot;,
        plot=p_piemap, dpi=72,
+       width=15, height = 10, units=&quot;cm&quot;)</code></pre>
+<pre><code>## Warning: Raster pixels are placed at uneven horizontal intervals and will be
+## shifted. Consider using geom_tile() instead.</code></pre>
+<p>Save sampling points over PGD map for paper plot:</p>
+<pre class="r"><code># plot PGD raster
+p_PGDmap&lt;- ggplot()  +
+                geom_raster(data = raster_df , aes(x = x, y = y, fill = PGD_Zea_mays_parviglumis)) +
+                scale_fill_manual(values = alpha(mycols, 0.5) , name=&quot;PGD&quot;,
+                                  labels = mylabs,
+                                  breaks = mylabs) + # no prevent the area outside the SDM to appear as a PDG 0
+    theme_bw() + 
+    labs(x=&quot;&quot;, y= &quot;&quot;) + theme(text = element_text(size = 15)) +
+# add sampling points
+geom_point(data=parvimeta, aes(x=LONGITUDE, 
+                                   y=LATITUDE)) +
+theme(legend.position = &quot;none&quot;)
+
+
+# save file
+ggsave(&quot;../figures/PGDmap_parviglumis_pgd.png&quot;,
+       plot=p_PGDmap, dpi=72,
        width=15, height = 10, units=&quot;cm&quot;)</code></pre>
 <pre><code>## Warning: Raster pixels are placed at uneven horizontal intervals and will be
 ## shifted. Consider using geom_tile() instead.</code></pre>
@@ -750,9 +771,9 @@ ggsave(&quot;../figures/piemap_parviglumis_pgd.png&quot;,
 ## [40] ggforce_0.3.3       hms_1.1.0           digest_0.6.27      
 ## [43] stringi_1.7.3       polyclip_1.10-0     grid_3.6.3         
 ## [46] bitops_1.0-6        tools_3.6.3         magrittr_2.0.1     
-## [49] tibble_3.1.4        crayon_1.4.1        tidyr_1.1.3        
+## [49] tibble_3.1.3        crayon_1.4.1        tidyr_1.1.3        
 ## [52] pkgconfig_2.0.3     ellipsis_0.3.2      MASS_7.3-54        
-## [55] rmarkdown_2.10      R6_2.5.1            compiler_3.6.3</code></pre>
+## [55] rmarkdown_2.10      R6_2.5.0            compiler_3.6.3</code></pre>
 </div>
 
 
