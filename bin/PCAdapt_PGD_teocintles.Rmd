@@ -1,0 +1,124 @@
+---
+title: "PCAdapt_teosinte.Rmd"
+output: html_document
+---
+
+
+Load packages
+```{r, setup}
+library(pcadapt)
+library(rgl)
+knitr::knit_hooks$set(webgl = hook_webgl) # to enable 3d plots with knirt
+library(ggplot2)
+```
+
+Load data. Metadata includes samples origin and PGD as extracted from raster in the script `plot_admixture_PGD_teocintles.Rmd`. 
+
+```{r}
+# genetic
+parvi<- read.pcadapt(input = "../data/genetic/output/bytaxa_parviglumis.bed", type = "bed")
+
+# meta
+pgd_meta<-read.csv("../data/genetic/output/PGD_points_parvi.txt") #samples metadata are in same order than the bed file
+```
+
+Run `pcadapt` function to perform PCA and estimate K
+
+```{r}
+mypca <- pcadapt(input = parvi, K = 30)
+```
+
+Estimate the % of variation explained by the firsts components
+
+```{r}
+pc.percent<-mypca$singular.values*100
+round(pc.percent, 13)
+```
+
+Perform a "scree plot’ to display in decreasing order the percentage of variance explained by each PC. The eigenvalues that correspond to random variation lie on a straight line whereas the ones that correspond to population structure lie on a steep curve. It is recommended to keep PCs that correspond to eigenvalues to the left of the straight line (Cattell’s rule). However, in a range expansion model, which seems to be the case for this taxa, there is no obvious point at which eigenvalues depart from the straight line. 
+
+```{r}
+plot(mypca, option = "screeplot")
+```
+
+Plot coloring according to sampling locations
+
+```{r}
+# Plot with sampling populations from metadata
+
+# default
+plot(mypca, option = "scores", pop= pgd_meta$POBorder)
+plot(mypca, option = "scores", pop= pgd_meta$POBorder, i=9, j=13)
+
+# custom with ggplot to explore longitude
+
+```
+
+Plot coloring according to PGD
+
+```{r}
+# Plot according to where samples fell in PGD 
+
+# Get same colors than PGD map 
+mycols<-data.frame(colors=c("grey40", "#917031", "#4d6cd0", "#8bbb39", "#c556c5", "#53d06a", "#895dc8", "#cc5658", "#d84492", "#69b974", "#d63c48", "#4dc0b1", "#d3542b", "#4b9cd3", "#d2a337", "#9289cf", "#b1b23a", "#9a5398", "#498331", "#cc4668", "#37835d", "#df89be", "#6e7721", "#9b496e", "#b9b06d", "#ac575b", "#65743a", "#e78b7a", "#db873d"), PGD=c(NA, 5, 32, 42, 10, 86, 90, 36, 20, 48, 92, 25, 2, 11, 37, 6, 21, 43, 84, 93, 8,  38, 15, 23, 40, 58, 41, 39, 7))
+
+# desired PGDs for scores plot (present in genetic sampling)
+desired<-unique(pgd_meta$PGD_points)
+mycols_desired<-mycols[mycols$PGD %in% desired, ]
+
+mycols_desired<-mycols_desired[order(mycols_desired$PGD, na.last=TRUE), ] 
+mycols_desired$colors<-as.character(mycols_desired$colors)
+mycols_desired$colors
+
+
+plot(mypca, option = "scores", pop= pgd_meta$PGD_points, col=mycols_desired$colors)
+plot(mypca, option = "scores", pop= pgd_meta$PGD_points, i=2, j=5, col=mycols_desired$colors)
+plot(mypca, option = "scores", pop= pgd_meta$PGD_points, i=1, j=3, col=mycols_desired$colors)
+
+```
+
+
+More customizable plots with ggplot
+
+```{r}
+# Get PC data is stored at mypca$scores[, i], where i is the desired PC
+tab<-data.frame(PC1=mypca$scores[,1],
+                PC2=mypca$scores[,2],
+                PC3=mypca$scores[,3],
+                pop=pgd_meta$POBorder,
+                long=pgd_meta$LONGITUDE,
+                PGD=as.factor(pgd_meta$PGD_points))
+
+
+# plot longitude
+ggplot(data = tab, aes(x=PC1, y=PC2, colour = long)) + geom_point() +
+  ylab(paste0("eigenvector 1 explaining ", round(pc.percent, 2)[1], "%")) +
+  xlab(paste0("eigenvector 2 explaining ", round(pc.percent, 2)[2], "%"))
+
+```
+
+
+3D plot
+
+```{r, webgl = TRUE}
+
+# add variable with colors
+levels(tab$PGD)
+tab$cols<-tab$PGD
+levels(tab$cols)<-mycols_desired$colors
+head(tab$cols)
+
+plot3d(tab[, 1:3], col = tab$cols, size=3)
+```
+
+## 
+
+
+Other plots to texplore data
+
+```{r}
+plot(mypca, option="manhattan")
+plot(mypca, option="qqplot")
+
+```
+
