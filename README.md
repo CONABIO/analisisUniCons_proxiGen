@@ -63,6 +63,14 @@ File content is the following:
 `E_final_VegPyS.features_info.txt"` and `E_final_VegPyS.curves.txt`.
 * Zonation curves output and features but for taxa associated to different habitats, i.e. natural vegetation, agricultural and urban areas: `E_final_HabVarios.features_info.txt` and `E_final_HabVarios.curves.txt`.
 
+**Comparation output data** should be in the directory:
+`/data/comparations_output`
+
+File content is the following:
+
+#this needs to be updated
+
+
 ### Genetic
 
 Admixture output data for Z. m. parviglumis is in the directory:
