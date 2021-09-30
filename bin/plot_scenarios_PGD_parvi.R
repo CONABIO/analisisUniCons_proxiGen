@@ -42,12 +42,10 @@ head(data3)
 
 # A grouped bar chart
 legend_title <- "Scenario" 
-data3 <- with(data3, data3[order(Solution, Mean_Prop),]) # ordenar tabla (orden no se refleja en la grafica!!!!)
-
 ggplot(data3, aes(fill=Solution, y=Mean_Prop, x=factor(PGD))) + 
   geom_bar(position="dodge", stat="identity") +
   labs(x = "ID Proxy of genetic differentiation", 
-       y = "Mean proporton of the area of each taxon \nwithin each PGD (%)")+
+       y = "Mean proporton of the area of \nZ. m. parviglumis within each PGD (%)")+
   theme(text = element_text(size=9)) + 
   scale_fill_hue(legend_title, labels = c("SDM", "SDM*PGD"))+
   theme_bw() +
@@ -58,3 +56,37 @@ ggplot(data3, aes(fill=Solution, y=Mean_Prop, x=factor(PGD))) +
         panel.border = element_blank(),
         panel.background = element_blank()
         ) 
+
+### change order of PGD by Mean_Prop and plot again
+# get order
+x<-with(data3, data3[order(Solution, Mean_Prop),]) 
+x
+PGDs_ordered<-as.character(x[x$Solution=="Scenario_SDM", 1])
+
+# order levels
+data4<-data3
+data4$PGD<-factor(data4$PGD, levels=PGDs_ordered)
+data4$PGD
+
+# plot
+legend_title <- "Scenario" 
+
+p<-ggplot(data4, aes(fill=Solution, y=Mean_Prop, x=factor(PGD))) + 
+  geom_bar(position="dodge", stat="identity") +
+  labs(x = "ID Proxy of genetic differentiation", 
+       y = "Mean proporton of the area of \nZ. m. parviglumis within each PGD (%)")+
+  theme(text = element_text(size=9)) + 
+  scale_fill_hue(legend_title, labels = c("SDM", "SDM*PGD"))+
+  theme_bw() +
+  theme(legend.position = "top", 
+        axis.line = element_line(colour = "black"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        panel.background = element_blank()
+  ) 
+p
+
+ggsave("../figures/PGDmap_barplotPGD_parvi.png",
+       plot=p, dpi=300,
+       width=10, height = 10, units="cm")
