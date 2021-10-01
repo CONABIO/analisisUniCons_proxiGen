@@ -75,7 +75,6 @@ p<-ggplot(data4, aes(fill=Solution, y=Mean_Prop, x=factor(PGD))) +
   geom_bar(position="dodge", stat="identity") +
   labs(x = "PGD", 
        y = "Mean proportion (%)")+
-  theme(text = element_text(size=9)) + 
   scale_fill_hue(legend_title, labels = c("SDM", "SDM*PGD"))+
   theme_bw() +
   theme(legend.position = "top", 
@@ -83,8 +82,8 @@ p<-ggplot(data4, aes(fill=Solution, y=Mean_Prop, x=factor(PGD))) +
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         panel.border = element_blank(),
-        panel.background = element_blank()
-  ) 
+        panel.background = element_blank(),
+        text = element_text(size=15)) 
 p
 
 ggsave("../figures/PGDmap_barplotPGD_parvi.png",
