@@ -187,17 +187,16 @@ parvi_small<- raster::crop(parvi_rasters$PGD_Zea_mays_parviglumis,
 # convert to df to plot with ggplot
 raster_df<-as.data.frame(rasterToPoints(parvi_small, spatial = TRUE))
 raster_df$PGD_Zea_mays_parviglumis<-as.character(raster_df$PGD_Zea_mays_parviglumis)
-# get labels with 0 as "NA" (it is not really NA, just the part of Mx out of the species range). True NA is outside of Mx.
-mylabs<-unique(getValues(parvi_rasters$PGD_Zea_mays_parviglumis))[2:length(unique(getValues(parvi_rasters$PGD_Zea_mays_parviglumis)))] # ommit the first (true NA)
-mylabs[1]<-"NA" # change 0 to "NA"
+# Notice labels with 0 as are not a PGD, just the part of Mx out of the species range. NA is outside of Mx.
+mylabs<-unique(getValues(parvi_rasters$PGD_Zea_mays_parviglumis))[2:length(unique(getValues(parvi_rasters$PGD_Zea_mays_parviglumis)))] 
 mylabs
 length(mylabs)
 # get nice colors
-mycols<-c("grey40","#917031", "#4d6cd0", "#8bbb39", "#c556c5", "#53d06a", "#895dc8", "#cc5658", "#d84492", "#69b974", "#d63c48", "#4dc0b1", "#d3542b", "#4b9cd3", "#d2a337", "#9289cf", "#b1b23a", "#9a5398", "#498331", "#cc4668", "#37835d", "#df89be", "#6e7721", "#9b496e", "#b9b06d", "#ac575b", "#65743a", "#e78b7a", "#db873d")
+mycols<-c("grey70","#917031", "#4d6cd0", "#8bbb39", "#4dc0b1" , "#53d06a", "#895dc8", "#cc5658", "#d84492", "#69b974", "#d63c48", "#c556c5", "#d3542b", "#65743a", "#d2a337", "#9289cf", "#b1b23a", "#9a5398", "#498331", "#cc4668", "#37835d", "#df89be", "#dd4533", "#9b496e", "#b9b06d", "#ac575b", "#4b9cd3", "#e78b7a", "#db873d")
 length(mycols)
 # plot PGD raster
 p<- ggplot() +
-    geom_raster(data = raster_df , aes(x = x, y = y, fill = PGD_Zea_mays_parviglumis)) +
+    geom_raster(data = raster_df , aes(x = x, y = y, fill = PGD_Zea_mays_parviglumis)) + 
     scale_fill_manual(values = mycols, name="PGD",
                       labels = mylabs,
                       breaks = mylabs) + # no prevent the area outside the SDM to appear as a PDG 0
@@ -211,7 +210,14 @@ p + geom_point(data=parvimeta, aes(x=LONGITUDE,
 Plot scatterpies with genetic groups
 
 ```{r, fig.width=15, fig.height=10}
-p_piemap<-p + new_scale("fill") + # this is needed because raster and pie have diff fills
+p_piemap<-ggplot() +
+    geom_raster(data = raster_df , aes(x = x, y = y, fill = PGD_Zea_mays_parviglumis)) + 
+    scale_fill_manual(values = alpha(mycols, 0.5), name="PGD",
+                      labels = mylabs,
+                      breaks = mylabs) + # no prevent the area outside the SDM to appear as a PDG 0
+    theme_bw() + 
+    labs(x="", y= "") + theme(text = element_text(size = 25)) +
+  new_scale("fill") + # this is needed because raster and pie have diff fills
           geom_scatterpie(data=Qval,
                                    aes(x=LONGITUDE, 
                                        y=LATITUDE,
