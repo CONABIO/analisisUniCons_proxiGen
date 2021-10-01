@@ -73,8 +73,8 @@ legend_title <- "Scenario"
 
 p<-ggplot(data4, aes(fill=Solution, y=Mean_Prop, x=factor(PGD))) + 
   geom_bar(position="dodge", stat="identity") +
-  labs(x = "ID Proxy of genetic differentiation", 
-       y = "Mean proporton of the area of \nZ. m. parviglumis within each PGD (%)")+
+  labs(x = "PGD", 
+       y = "Mean proportion (%)")+
   theme(text = element_text(size=9)) + 
   scale_fill_hue(legend_title, labels = c("SDM", "SDM*PGD"))+
   theme_bw() +
