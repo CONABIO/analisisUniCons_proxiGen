@@ -60,7 +60,8 @@ Plot coloring according to PGD
 # Plot according to where samples fell in PGD 
 
 # Get same colors than PGD map 
-mycols<-data.frame(colors=c("grey40", "#917031", "#4d6cd0", "#8bbb39", "#c556c5", "#53d06a", "#895dc8", "#cc5658", "#d84492", "#69b974", "#d63c48", "#4dc0b1", "#d3542b", "#4b9cd3", "#d2a337", "#9289cf", "#b1b23a", "#9a5398", "#498331", "#cc4668", "#37835d", "#df89be", "#6e7721", "#9b496e", "#b9b06d", "#ac575b", "#65743a", "#e78b7a", "#db873d"), PGD=c(NA, 5, 32, 42, 10, 86, 90, 36, 20, 48, 92, 25, 2, 11, 37, 6, 21, 43, 84, 93, 8,  38, 15, 23, 40, 58, 41, 39, 7))
+mycols<-data.frame(colors=c("grey70","#917031", "#4d6cd0", "#8bbb39", "#4dc0b1" , "#53d06a", "#895dc8", "#cc5658", "#d84492", "#69b974", "#d63c48", "#c556c5", "#d3542b", "#65743a", "#d2a337", "#9289cf", "#b1b23a", "#9a5398", "#498331", "#cc4668", "#37835d", "#df89be", "#dd4533", "#9b496e", "#b9b06d", "#ac575b", "#4b9cd3", "#e78b7a", "#db873d"), PGD=c(0, 5, 32, 42, 10, 86, 90, 36, 20, 48, 92, 25, 2, 11, 37, 6, 21, 43, 84, 93, 8,  38, 15, 23, 40, 58, 41, 39, 7))
+
 
 # desired PGDs for scores plot (present in genetic sampling)
 desired<-unique(pgd_meta$PGD_points)
@@ -74,6 +75,7 @@ mycols_desired$colors
 plot(mypca, option = "scores", pop= pgd_meta$PGD_points, col=mycols_desired$colors)
 plot(mypca, option = "scores", pop= pgd_meta$PGD_points, i=2, j=5, col=mycols_desired$colors)
 plot(mypca, option = "scores", pop= pgd_meta$PGD_points, i=1, j=3, col=mycols_desired$colors)
+
 
 ```
 
@@ -111,14 +113,17 @@ head(tab$cols)
 plot3d(tab[, 1:3], col = tab$cols, size=3)
 ```
 
-## 
-
-
-Other plots to texplore data
+## Other plots to texplore data
 
 ```{r}
 plot(mypca, option="manhattan")
 plot(mypca, option="qqplot")
 
+```
+
+## Session details
+
+```{bash}
+sessionInfo()
 ```
 
