@@ -183,7 +183,7 @@ Plot PGD and sampling points of genetic data.
 ```{r, fig.width=15, fig.height=10}
 # crop raster to make it more managable
 parvi_small<- raster::crop(parvi_rasters$PGD_Zea_mays_parviglumis,
-                           y=extent(c(-107, -96 , 15.5, 22)))
+                           y=extent(c(-106, -96.5 , 15.2, 21.2)))
 # convert to df to plot with ggplot
 raster_df<-as.data.frame(rasterToPoints(parvi_small, spatial = TRUE))
 raster_df$PGD_Zea_mays_parviglumis<-as.character(raster_df$PGD_Zea_mays_parviglumis)
@@ -201,7 +201,7 @@ p<- ggplot() +
                       labels = mylabs,
                       breaks = mylabs) + # no prevent the area outside the SDM to appear as a PDG 0
     theme_bw() + 
-    labs(x="", y= "") + theme(text = element_text(size = 25))
+    labs(x="", y= "") + theme(text = element_text(size = 22))
 # add sampling points
 p + geom_point(data=parvimeta, aes(x=LONGITUDE, 
                                    y=LATITUDE))
@@ -226,7 +226,7 @@ p_piemap<-ggplot() +
                                        cols=paste0("K", 1:13)) +
          scale_fill_manual(values= piecolors,
                             name="Genetic cluster") +
-          labs(x="", y= "") + theme(text = element_text(size = 25))
+          labs(x="", y= "") + theme(text = element_text(size = 22))
 p_piemap
 ```
 
@@ -343,7 +343,7 @@ ggsave("../figures/piemap_parviglumis_pgd.png",
 
 Save sampling points over PGD map for paper plot:
 
-```{r}
+```{r, fig.height = 11, fig.width = 15}
 # plot PGD raster
 p_PGDmap<- ggplot()  +
                 geom_raster(data = raster_df , aes(x = x, y = y, fill = PGD_Zea_mays_parviglumis)) +
@@ -351,7 +351,7 @@ p_PGDmap<- ggplot()  +
                                   labels = mylabs,
                                   breaks = mylabs) + # no prevent the area outside the SDM to appear as a PDG 0
     theme_bw() + 
-    labs(x="", y= "") + theme(text = element_text(size = 15)) +
+    labs(x="", y= "") + theme(text = element_text(size = 9)) +
 # add sampling points
 geom_point(data=parvimeta, size=0.3,
            aes(x=LONGITUDE, 
@@ -362,7 +362,7 @@ p_PGDmap
 # save file
 ggsave("../figures/PGDmap_parviglumis_pgd.png",
        plot=p_PGDmap, dpi=300,
-       width=15, height = 10, units="cm")
+       width=15, height = 11, units="cm")
 ```
 
 
