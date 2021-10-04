@@ -160,11 +160,11 @@ Data used by this script:
 
 * Zonation outputs and proxies of gen div:
 ```
-"../data/spatial/Zonation_output/comparacion/01_MDP.rank.compressed.tif", # Zonation output with species only (n=116) #1
-"../data/spatial/Zonation_output/comparacion/02_MDP_ZV.rank.compressed.tif", # Zonation output with species + LZ (n=143) #2
-"../data/spatial/Zonation_output/comparacion/03_MDP_PDG.rank.compressed.tif", # Zonation output with species and PDG (n=218) #3
-"../data/spatial/Zonation_output/comparacion/04_MDP_vs_PDG.rank.compressed.tif", # Zonation output with species vs PDG (n=5004) #4
-"../data/spatial/Zonation_output/comparacion/05_MDP_PDG_ADMU.rank.compressed.tif", # Zonation output with species and PDG as ADMU (n=116+1) #5
+"../data/spatial/Zonation_output/01_MDP.rank.compressed.tif", # Zonation output with species only (n=116) #1
+"../data/spatial/Zonation_output/02_MDP_ZV.rank.compressed.tif", # Zonation output with species + LZ (n=143) #2
+"../data/spatial/Zonation_output/03_MDP_PDG.rank.compressed.tif", # Zonation output with species and PDG (n=218) #3
+"../data/spatial/Zonation_output/04_MDP_vs_PDG.rank.compressed.tif", # Zonation output with species vs PDG (n=5004) #4
+"../data/spatial/Zonation_output/05_MDP_PDG_ADMU.rank.compressed.tif", # Zonation output with species and PDG as ADMU (n=116+1) #5
 "../data/spatial/areasProxyDivGen/PDG.tif") #Proxies div gen 
 ```
 
