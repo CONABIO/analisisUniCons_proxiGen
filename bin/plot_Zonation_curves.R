@@ -1,6 +1,6 @@
 ### This script plots the performance curves and proportion of
 ### proxies of genetid diversity conserved under Zonation
-### analysis considering the SDM, PDG, habitat and threat layers
+### analysis considering the SDM, PGD, habitat and threat layers
 
 
 ### Libraries
@@ -19,8 +19,8 @@ library(purrr)
 zfeatures<-read.table("../data/spatial/Zonation_final_solutions/E_final_Todos.features_info.txt",
                       skip=1, header = TRUE)
 
-# extract conservation features names (each SDP subdivided by its PDG)
-feature_names<-substring(zfeatures$MapFileName, first= 9) # cut MDP_PDG/
+# extract conservation features names (each SDP subdivided by its PGD)
+feature_names<-substring(zfeatures$MapFileName, first= 9) # cut MDP_PGD/
 feature_names<-gsub(pattern=".tif", replacement= "", feature_names) # cut .tif
 
 # check names
@@ -118,7 +118,7 @@ ggplot(by_genus, aes(x=Area_kept, y=all, color=IUCN.threat.category)) +
                           guide = guide_legend(override.aes = list(size = 3))) +
   
      # nicer labels
-      labs(x="Percentage of Mexican territory", y= "Mean proportion of the area of each PDG within each taxon") +
+      labs(x="Percentage of Mexican territory", y= "Mean proportion of the area of each PGD within each taxon") +
       theme_bw() + 
       
      # larger text
@@ -175,7 +175,7 @@ head(zc_forplot)
 ### Plot
 
 # plot
-ggplot(zc_forplot, aes(x=Area_kept, y=prop, color=Category)) +
+fig6<- ggplot(zc_forplot, aes(x=Area_kept, y=prop, color=Category)) +
   stat_summary(fun = mean, geom = "line", size=1.5) +
   #stat_summary(fun = median, geom = "line", linetype=2) +
   scale_color_manual(values= iucn.cols,
@@ -183,7 +183,7 @@ ggplot(zc_forplot, aes(x=Area_kept, y=prop, color=Category)) +
                      name= "IUCN threat category",
                      guide = guide_legend(override.aes = list(size = 3))) +
   # nicer labels
-  labs(x="Percentage of Mexican territory", y= "Mean proportion of the area of each PDG within each taxon") +
+  labs(x="Percentage of Mexican territory", y= "Mean proportion of the area of each PGD within each taxon") +
  
    # nicer background
   theme_bw() +
@@ -194,6 +194,11 @@ ggplot(zc_forplot, aes(x=Area_kept, y=prop, color=Category)) +
         axis.text = element_text(size=13),
         legend.text = element_text(size=13),
         legend.title = element_text(size=13, face="bold")) 
+fig6
+
+ggsave("../figures/Fig6_performancecurves_by_iucn.png",
+       plot=fig6, dpi=300,
+       width=21, height = 17, units="cm")
 
 
 ####               
@@ -213,8 +218,8 @@ generate_zc_forplot<-function(input_features, input_zcurves){
 zfeatures<-read.table(input_features,
                       skip=1, header = TRUE)
 
-# extract conservation features names (each SDP subdivided by its PDG)
-feature_names<-substring(zfeatures$MapFileName, first= 9) # cut MDP_PDG/
+# extract conservation features names (each SDP subdivided by its PGD)
+feature_names<-substring(zfeatures$MapFileName, first= 9) # cut MDP_PGD/
 feature_names<-gsub(pattern=".tif", replacement= "", feature_names) # cut .tif
 
 ## Read Zonation curves output 
@@ -336,7 +341,7 @@ plot.b<-ggplot(zc_forplot_Veg, aes(x=Area_kept, y=prop, color=Category)) +
                      name= "IUCN threat category",
                      guide = guide_legend(override.aes = list(size = 3))) +
   # nicer labels
-  labs(x="", y= "Mean proportion of the area of each PDG within each taxon") +
+  labs(x="", y= "Mean proportion of the area of each PGD within each taxon") +
   ggtitle("b)") +
   
   # nicer background
