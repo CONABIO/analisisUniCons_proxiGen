@@ -45,7 +45,7 @@ legend_title <- "Scenario"
 ggplot(data3, aes(fill=Solution, y=Mean_Prop, x=factor(PGD))) + 
   geom_bar(position="dodge", stat="identity") +
   labs(x = "ID Proxy of genetic differentiation", 
-       y = "Mean proporton of the area of \nZ. m. parviglumis within each PGD (%)")+
+       y = "Proporton of the area of \nZ. m. parviglumis within each PGD (%)")+
   theme(text = element_text(size=9)) + 
   scale_fill_hue(legend_title, labels = c("SDM", "SDM*PGD"))+
   theme_bw() +
@@ -74,8 +74,9 @@ legend_title <- "Scenario"
 p<-ggplot(data4, aes(fill=Solution, y=Mean_Prop, x=factor(PGD))) + 
   geom_bar(position="dodge", stat="identity") +
   labs(x = "PGD", 
-       y = "Mean proportion (%)")+
-  scale_fill_hue(legend_title, labels = c("SDM", "SDM*PGD"))+
+       y = "Proportion of each PGD (%)")+
+  scale_fill_manual(legend_title, labels = c("SDM", "SDM*PGD"), 
+                    values=c("grey20", "grey70")) +
   theme_bw() +
   theme(legend.position = "top", 
         axis.line = element_line(colour = "black"),
@@ -83,7 +84,7 @@ p<-ggplot(data4, aes(fill=Solution, y=Mean_Prop, x=factor(PGD))) +
         panel.grid.minor = element_blank(),
         panel.border = element_blank(),
         panel.background = element_blank(),
-        text = element_text(size=15)) 
+        text = element_text(size=15))
 p
 
 ggsave("../figures/PGDmap_barplotPGD_parvi.png",
