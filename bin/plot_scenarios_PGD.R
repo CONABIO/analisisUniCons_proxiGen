@@ -1,5 +1,5 @@
 ### This script plots the analyses to compare different ways to incorporate the PDG
-### into the Zonation analyses
+### into the Zonation analyses (Fig. 4)
 
 ### Libraries
 library(ggplot2)
@@ -99,7 +99,7 @@ plot_a <-filter(sols_summary_spp, Solution!="ENM_sp") %>%
 plot_a
 
 
-### Plot for paper figure:
+### Plot for paper figure (Fig 4):
 
 
 plot_a <- plot_a +
@@ -206,6 +206,74 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
 }
 
 multiplot(plot_a, plot_b, cols=2)
+
+## Supplementary analysis suggested during review:
+
+# Read IUCN category per taxa
+iucn<-read.csv("../data/spatial/Zonation_final_solutions/IUCN_threat_category.csv")
+
+# change names to fit sols_summary_spp names
+iucn<-mutate(iucn, Nombre_=gsub("_", " ", iucn$Nombre_)) %>%
+
+# keep only needed variables
+select(.,-Taxa) 
+
+# add iucn data to Zonation solutions
+sols_summary_spp<-left_join(sols_summary_spp, iucn, by =c("sp" = "Nombre_")) %>%
+
+# Get Genus
+separate(col=sp, 
+         into=c("Genus", "Species"), 
+         sep=" ", extra="merge", remove=FALSE)
+
+# For the SDM*PGD curve of Fig 4a, get which taxa have less than 60% PGD represented
+filter(sols_summary_spp, Solution=="Scenario_SDM_vs_PGD", mean.prop<0.60) %>% 
+  select(., mean.prop, Area, IUCN.threat.category, sp)
+
+# For the SDM*PGD curve of Fig 4a, get which taxa have >90% PGD represented
+filter(sols_summary_spp, Solution=="Scenario_SDM_vs_PGD", mean.prop>0.90) %>% 
+  select(., mean.prop, Area, IUCN.threat.category, sp)
+
+
+# Examine if there is a pattern on which have more or less PGD represented
+
+# By genus
+plot_genus <-filter(sols_summary_spp, Solution=="Scenario_SDM_vs_PGD") %>%
+  # plot points
+  ggplot(., aes(x=Prop_to_AreaSP, y=mean.prop, color=Genus)) + geom_point(size=1.1) +
+  scale_x_continuous(name="Proportion of taxa distribution (%)") +
+  scale_y_continuous(name="Mean proportion of area of proxy represented by taxa distribution (%)", 
+                     breaks = seq(0, 1, by = 0.25), expand = c(0, 0)) +
+  theme_bw() 
+plot_genus
+
+# by IUCN
+iucn.cols<-c("#D81E05", "#FC7F3F", "#F9E814", "#CCE226", "#60C659", "#D1D1C6") # respectively for "CR", "EN", "VU", "NT", "LC", "DD"
+
+plot_iucn <-filter(sols_summary_spp, Solution=="Scenario_SDM_vs_PGD") %>%
+  # plot points
+  ggplot(., aes(x=Prop_to_AreaSP, y=mean.prop, color=IUCN.threat.category)) + geom_point(size=1.1) +
+  scale_x_continuous(name="Proportion of taxa distribution (%)") +
+  scale_y_continuous(name="Mean proportion of area of proxy represented by taxa distribution (%)", 
+                     breaks = seq(0, 1, by = 0.25), expand = c(0, 0)) +
+  scale_color_manual(values= iucn.cols,
+                     breaks= c("CR", "EN", "VU", "NT", "LC", "DD"),
+                     name= "Threat category") +
+  theme_bw()+ labs(title="a)")
+plot_iucn
+
+# plot by area
+plot_area <-filter(sols_summary_spp, Solution=="Scenario_SDM_vs_PGD") %>%
+  # plot points
+  ggplot(., aes(x=Prop_to_AreaSP, y=mean.prop, color=Area)) + geom_point(size=1.1) +
+  scale_x_continuous(name="Proportion of taxa distribution (%)") +
+  scale_y_continuous(name="Mean proportion of area of proxy represented by taxa distribution (%)", 
+                     breaks = seq(0, 1, by = 0.25), expand = c(0, 0)) +
+  theme_bw() + labs(title="b)")
+plot_area
+
+multiplot(plot_iucn, plot_area, cols=1)
+
 
 # Get session info
 sessionInfo()
