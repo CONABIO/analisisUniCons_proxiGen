@@ -211,7 +211,7 @@ Performs the PCA with the genetic data of Fig. 3c.
 
 Data used by this script:
 
-*`../data/genetic/output/bytaxa_parviglumis.bed`
+* `../data/genetic/output/bytaxa_parviglumis.bed`
 * `../data/genetic/output/PGD_points_parvi.txt"`
 
 #### 6) `plot_scenarios_PGD_parvi.R`
