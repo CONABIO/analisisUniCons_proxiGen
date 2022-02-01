@@ -179,9 +179,11 @@ Output of this script:
 
 #### 3) `plot_scenarios_PDG.R`
 
-Uses the data `../data/comparations_output/sols_summary_spp.txt` produced by the script `spatial_analyses_zonationVSproxiesdivgen_all_ms.R` to perform the plots of the following figure:
+Uses the data `../data/comparations_output/sols_summary_spp.txt` produced by the script `spatial_analyses_zonationVSproxiesdivgen_all_ms.R` to perform the plots of the following:
 
 * Fig 4. Performance of five scenarios to represent conservation features of Mesoamerican crop wild relatives, considering 20% of Mexico’s terrestrial area.
+
+* Supplementary analyses suggested during review (only stats are mentioned in the ms text)
 
 
 #### 4) `plot_Zonation_curves.R`
@@ -196,17 +198,34 @@ Category.
 * Supplementary Fig. 9. Performance curves quantifying the proportion of taxa
 distribution ranges considering all priority taxa
 
-Data used for this script:
+Data used by this script:
 
 * Read IUCN category per taxa: `"../data/spatial/Zonation_final_solutions/IUCN_threat_category.csv"`
 * Zonation curves output and features for all taxa: `"../data/spatial/Zonation_final_solutions/E_final_Todos.curves.txt"` and `"../data/spatial/Zonation_final_solutions/E_final_Todos.features_info.txt"`
 * Zonation curves output and features but for taxa exclusively distributing in natural vegetation: `"../data/spatial/Zonation_final_solutions/E_final_VegPyS.features_info.txt"` and `"../data/spatial/Zonation_final_solutions/E_final_VegPyS.curves.txt"`.
 * Zonation curves output and features but for taxa associated to different habitats, i.e. natural vegetation, agricultural and urban areas: `"../data/spatial/Zonation_final_solutions/E_final_HabVarios.features_info.txt"` and `"../data/spatial/Zonation_final_solutions/E_final_HabVarios.curves.txt"`.
 
+#### 5) `PCAdapt_PGD_teocintles.Rmd`
+
+Performs the PCA with the genetic data of Fig. 3c.
+
+Data used by this script:
+
+*`../data/genetic/output/bytaxa_parviglumis.bed`
+* `../data/genetic/output/PGD_points_parvi.txt"`
+
+#### 6) `plot_scenarios_PGD_parvi.R`
+
+Plots the barplot of Fig. 3d.
+
+Data used by this script:
+
+* `../data/comparations_output/20_sol_prop_spp.txt`
+* `../data/genetic/output/PGD_points_parvi.txt"`
 
 ## Dependencies
 
 Analyses were carried out in Zonation version 4 and in R version 3.5.1. The following R packages were used:
-`purrr_0.3.4`, `tidyr_1.0.2`   `dplyr_1.0.2`   `ggplot2_3.3.3`, `readr_1.4.0`, `gridExtra_2.3`,  `ggnewscale_0.4.5`, `scatterpie_0.1.5`, `pophelper_2.3.1`, `rgdal_1.4-8`, `raster_3.4-5`  and `sp_1.4-4`. Additional dependencies can be consulted in the html notbook of the r scritps (session info section).
+`purrr_0.3.4`, `tidyr_1.0.2`   `dplyr_1.0.2`   `ggplot2_3.3.3`, `readr_1.4.0`, `gridExtra_2.3`,  `ggnewscale_0.4.5`, `scatterpie_0.1.5`, `pophelper_2.3.1`, `rgdal_1.4-8`, `raster_3.4-5`, `sp_1.4-4`, rgl_0.107.10 and pcadapt_4.3.3. Additional dependencies can be consulted in the html notbook of the r scritps (session info section).
 
 
