@@ -211,8 +211,8 @@ Performs the PCA with the genetic data of Fig. 3c.
 
 Data used by this script:
 
-* `../data/genetic/output/bytaxa_parviglumis.bed`
-* `../data/genetic/output/PGD_points_parvi.txt"`
+* Genetic data for PCA: `../data/genetic/output/bytaxa_parviglumis.bed`
+* Samples metadata including PGD where they fell: `../data/genetic/output/PGD_points_parvi.txt"`
 
 #### 6) `plot_scenarios_PGD_parvi.R`
 
@@ -220,8 +220,8 @@ Plots the barplot of Fig. 3d.
 
 Data used by this script:
 
-* `../data/comparations_output/20_sol_prop_spp.txt`
-* `../data/genetic/output/PGD_points_parvi.txt"`
+* Spatial output of zonation solution for 20% Mexico: `../data/comparations_output/20_sol_prop_spp.txt`
+* Samples metadata including PGD where they fell: `../data/genetic/output/PGD_points_parvi.txt"`
 
 ## Dependencies
 
