@@ -1,8 +1,6 @@
 # README
 
-Code for the analyses of the paper "Incorporating evolutionary and threat processes into crop wild relatives conservation" by Wolke Tobón-Niedfeldt, 
-Alicia Mastretta-Yanes, Tania Urquiza-Haas, Bárbara Goettsch, Angela P. Cuervo Robayo, Esmeralda Urquiza-Haas, M. Andrea Orjuela-R, Francisca Acevedo Gasman, Oswaldo Oliveros-Galindo, Caroline Burgeff, Diana Rivera-Rodríguez, José de Jesús Sánchez González, Jesús Alarcón-Guerrero, José Sarukhán and Patricia Koleff.
-
+Code for the analyses of the paper **_Incorporating evolutionary and threat processes into crop wild relatives conservation_** by Wolke Tobón-Niedfeldt, Alicia Mastretta-Yanes,, Tania Urquiza-Haas, Bárbara Goettsch3, Angela P. Cuervo-Robayo, Esmeralda Urquiza-Haas, M. Andrea Orjuela-R., Francisca Acevedo Gasman, Oswaldo Oliveros-Galindo, Caroline Burgeff, Diana Rivera-Rodríguez, José de Jesús Sánchez González, Jesús Alarcón-Guerrero, Araceli Aguilar-Meléndez, Flavio Aragón Cuevas, Valeria Alavez, Gabriel Alejandre-Iturbide, Carlos-H. Avendaño-Arrazate, César Azurdia Pérez, Alfonso Delgado-Salinas, Pablo Galán, Manuel González-Ledesma, Jesús Hernández-Ruíz, Francisco G. Lorea-Hernández, Rafael Lira Saade8, Aarón Rodríguez, Dagoberto Rodríguez Delcid, José Ariel Ruiz-Corral, Juan José Santos Pérez, Ofelia Vargas-Ponce, Melania Vega8, Ana Wegier, Martín Quintana-Camargo, José Sarukhán and Patricia Koleff.
 
 ## Data
 
