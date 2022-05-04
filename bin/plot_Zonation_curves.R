@@ -319,7 +319,7 @@ plot.a<-ggplot(zc_forplot_all, aes(x=Area_kept, y=prop, color=Category)) +
                      name= "IUCN threat category",
                      guide = guide_legend(override.aes = list(size = 3))) +
   # nicer labels
-  labs(x="", y= "") +
+  labs(x="Percentage of Mexican territory", y= "Mean proportion of the area of each PGD within each taxon") +
   ggtitle("a)") +
   
   # nicer background
@@ -341,7 +341,7 @@ plot.b<-ggplot(zc_forplot_Veg, aes(x=Area_kept, y=prop, color=Category)) +
                      name= "IUCN threat category",
                      guide = guide_legend(override.aes = list(size = 3))) +
   # nicer labels
-  labs(x="", y= "Mean proportion of the area of each PGD within each taxon") +
+  labs(x="Percentage of Mexican territory", y= "Mean proportion of the area of each PGD within each taxon") +
   ggtitle("b)") +
   
   # nicer background
@@ -363,7 +363,7 @@ plot.c<-ggplot(zc_forplot_HabVarios, aes(x=Area_kept, y=prop, color=Category)) +
                      name= "IUCN threat category",
                      guide = guide_legend(override.aes = list(size = 3))) +
   # nicer labels
-  labs(x="Percentage of Mexican territory", y= "") +
+  labs(x="Percentage of Mexican territory", y= "Mean proportion of the area of each PGD within each taxon") +
   ggtitle("c)") +
   
   # nicer background
@@ -424,7 +424,7 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
   }
 }
 
-multiplot(plot.a, plot.b, plot.c, cols=1)
+multiplot(plot.a, plot.b, plot.c, cols=2)
 
 #### Get session info
 sessionInfo()
