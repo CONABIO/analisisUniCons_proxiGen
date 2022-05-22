@@ -184,16 +184,26 @@ fig6<- ggplot(zc_forplot, aes(x=Area_kept, y=prop, color=Category)) +
                      guide = guide_legend(override.aes = list(size = 3))) +
   # nicer labels
   labs(x="Percentage of Mexican territory", y= "Mean proportion of the area of each PGD within each taxon") +
- 
+  
+  # axis ticks
+  scale_x_continuous(limits = c(0,100),
+                     breaks = c(0, 5, 25, 50, 75, 100),
+                     labels = c(0, 5, 25, 50, 75, 100)) +
+  
    # nicer background
   theme_bw() +
   
-  # larger text
+  # larger text and background 
   theme(
         axis.title = element_text(size=14),
         axis.text = element_text(size=13),
         legend.text = element_text(size=13),
-        legend.title = element_text(size=13, face="bold")) 
+        legend.title = element_text(size=13, face="bold"),
+        axis.line = element_line(color='black'),
+        plot.background = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank())
+
 fig6
 
 ggsave("../figures/Fig6_performancecurves_by_iucn.png",
