@@ -183,7 +183,7 @@ fig6<- ggplot(zc_forplot, aes(x=Area_kept, y=prop, color=Category)) +
                      name= "IUCN threat category",
                      guide = guide_legend(override.aes = list(size = 3))) +
   # nicer labels
-  labs(x="Percentage of Mexican territory", y= "Mean proportion of the area of each PGD within each taxon") +
+  labs(x="Percentage of Mexican territory", y= "Mean proportion of area of proxies of genetic differentiation by taxa (%)") +
   
   # axis ticks
   scale_x_continuous(limits = c(0,100),
@@ -206,7 +206,7 @@ fig6<- ggplot(zc_forplot, aes(x=Area_kept, y=prop, color=Category)) +
 
 fig6
 
-ggsave("../figures/Fig6_performancecurves_by_iucn.png",
+ggsave("../figures/Fig6_performancecurves_by_iucn_.png",
        plot=fig6, dpi=300,
        width=21, height = 17, units="cm")
 
