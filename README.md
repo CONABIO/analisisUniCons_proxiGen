@@ -16,7 +16,7 @@ Ocurrence points for each of the cwr taxon analysed shold be in the directory: `
 * Rasters (.tif) of species distribution models for each of the cwr taxon used for Zonation analyses should be in the directory:
  `/data/spatial/modelos_darwin_all_final`. Raster names are `[taxon_name.tif`. Raster of *Z. mays* ssp. *parviglumis* as used for Fig. 3 should be in `/data/spatial/modelosDarwinZea/Zea_mays_parviglumis.tif`
  
-* Rasters (.tif) of Holdrige live zones should be in the directory:
+* Rasters (.tif) of Holdrige lifee zones should be in the directory:
  `/data/spatial/zv27`. Rasters are named `zv_[1:27].tif`
 
  * Rasters (.tif) with proxies of genetic diversity (PDG) should be in the directory:
@@ -71,7 +71,7 @@ File content is the following:
 
 ### Genetic
 
-Admixture output data for Z. m. parviglumis is in the directory:
+Admixture output data for *Z. m. parviglumis* should be in the directory:
 `/data/genetic/output/admixture/parvi/`
 
 File content is the following:
@@ -79,10 +79,16 @@ File content is the following:
 * Admixture output K error for CV analysis: `Kerror_parviglumis.txt`
 * Admixture Q files for K= 25 and K= 13: `bytaxa_parviglumis.25.Q` and `bytaxa_parviglumis.13.Q"`
 
-Metadata used for the admixture plots are at:
+Metadata used for the admixture plots should be at:
 
 * Passport data for each sample: `/data/genetic/output/ADN_pasap_3604.txt`
 * Fam file with sample list: `/data/genetic/output/bytaxa_parviglumis.fam`
+
+*Z. mays parviglumis* plink files used for PCA analysis should be in: 
+
+* `/data/genetic/output/` 
+
+and are named: `bytaxa_parviglumis.[bim, .fam, .bed]` 
 
 
 ### Other
@@ -224,6 +230,6 @@ Data used by this script:
 ## Dependencies
 
 Analyses were carried out in Zonation version 4 and in R version 3.5.1. The following R packages were used:
-`purrr_0.3.4`, `tidyr_1.0.2`   `dplyr_1.0.2`   `ggplot2_3.3.3`, `readr_1.4.0`, `gridExtra_2.3`,  `ggnewscale_0.4.5`, `scatterpie_0.1.5`, `pophelper_2.3.1`, `rgdal_1.4-8`, `raster_3.4-5`, `sp_1.4-4`, `rgl_0.107.10` and `pcadapt_4.3.3`. Additional dependencies can be consulted in the html notbook of the r scritps (session info section).
+`purrr_0.3.4`, `tidyr_1.0.2`   `dplyr_1.0.2`   `ggplot2_3.3.3`, `readr_1.4.0`, `gridExtra_2.3`,  `ggnewscale_0.4.5`, `scatterpie_0.1.5`, `pophelper_2.3.1`, `rgdal_1.4-8`, `raster_3.4-5`, `sp_1.4-4`, `rgl_0.107.10` and `pcadapt_4.3.3`. Additional dependencies can be consulted in the html notebook of the r scritps (session info section).
 
 
