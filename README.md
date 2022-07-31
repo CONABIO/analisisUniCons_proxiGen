@@ -117,7 +117,7 @@ Figures 2, 5 and Supplementary Figures 1-3, 5-7, 10 and 11 were made in ArcMap w
 
 ## Species distribution modelling
 
-Species distribution modelling was done using the custom function `MNE.R`, available at [https://github.com/AngelaCrow/MNE_ParientesSilvestresCultivos](https://github.com/AngelaCrow/MNE_ParientesSilvestresCultivos). See that repository for further details.
+Species distribution modelling was done by a previous study using the custom function `MNE.R`, made by Juan Barrios and available at [https://github.com/AngelaCrow/MNE_ParientesSilvestresCultivos](https://github.com/AngelaCrow/MNE_ParientesSilvestresCultivos). See that repository for further details.
 
 Data used:
 
@@ -131,6 +131,8 @@ Data used:
 2.	Zomer, R. J., Trabucco, A., Van Straaten, O. & Bossio, D. A. Carbon, Land and Water: A Global Analysis of the Hydrologic Dimensions of Climate Change Mitigation through Afforestation/Reforestation. International Water Management Institute 101, (2006).
 3.	Trabucco, A. & Zomer, R. Global Aridity Index (Global-Aridity) and Global Potential Evapo-Transpiration (Global-PET) Geospatial Database. (2009).
 4.	Tuanmu, M. N. & Jetz, W. A global 1-km consensus land-cover product for biodiversity and ecosystem modelling. Glob. Ecol. Biogeogr. 23, 1031–1045 (2014).
+
+Species distribution models can be downloaded from: http://www.conabio.gob.mx/informacion/gis/), or see Supplementary Table 1.6 for direct download links of each taxon.
 
 
 ## Zonation analyses
