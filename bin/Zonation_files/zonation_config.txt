@@ -1,0 +1,30 @@
+Zonation configuration
+ 
+### Settings file
+[Settings]
+removal rule = 1 (# Core Area Zonation)
+warp factor  = 1
+edge removal = 1
+annotate name = 0
+ 
+use SSI = 1
+SSI file name = SSI_list.txt
+ 
+use groups = 1
+groups file = habitat_group_features.txt
+ 
+use condition layer = 1
+condition file = habitat_features.txt
+ 
+### Batch file (run in cluster)
+ 
+#!/bin/bash 
+zig4 -r E_final.dat features_Todos.spp /home/see/E_final/E_final_Todos.txt 0.0 0 0 0   (# analysis for all taxa)
+ 
+#!/bin/bash
+zig4 -r E_final.dat features_VegPyS.spp /home/see/E_final/E_final_VegPyS.txt 0.0 0 0 0  (# analysis for taxa exclusively distributed in well-preserved vegetation)
+ 
+#!/bin/bash
+zig4 -r E_final.dat features_HabVarios.spp /home/see/E_final/E_final_HabVarios.txt 0.0 0 0 0 (# analysis for taxa that can be associated to different habitats and land uses (e.g. natural vegetation, agriculture and urban areas)
+ 
+
