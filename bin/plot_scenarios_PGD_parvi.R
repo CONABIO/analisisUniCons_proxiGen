@@ -5,7 +5,7 @@ library(forcats)
 
 
 # Path to files
-spatial_output <- read.table("../data/comparations_output/20_sol_prop_spp.txt", 
+spatial_output <- read.table("../data/comparations_output/sol_prop_spp.txt", 
                     header=T, sep = ",")
 head(spatial_output)
 
