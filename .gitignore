@@ -11,3 +11,8 @@ graficas_prueba.docx
 
 # Ignore archive folder where unused scripts for the ms are stored
 /archive
+
+# Keep figures directory clean
+/figures/*.pdf
+/figures/*.svg
+/figures/*.png
