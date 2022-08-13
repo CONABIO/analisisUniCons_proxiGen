@@ -15,24 +15,22 @@ Analyses were carried out in Zonation version 4 and in R version 3.5.1. The foll
 
 Code for analyses and plots made in R is available in the `/bin` directory of this repository in the .R and .Rmd scripts detailed below. For each .Rmd there is a .html version of it with an R notebook showing the code and output.
 
-# Donde queda Fig 3d?
 
-
-#### `PCAdapt_PGD_teocintles.Rmd`
+### `PCAdapt_PGD_teocintles.Rmd`
 
 Performs the PCA with the genetic data of *Z. m. parviglumis*. 
 
 Used to produce Figure 3c (3D PCA of genetic data).
 
-Data used by this script:
+**Data used by this script:**
 
 * Genetic data for PCA: `../data/genetic/output/bytaxa_parviglumis.bed`
 * Samples metadata including PGD where they fell: `../data/genetic/output/PGD_points_parvi.txt"`
 
-Data available at the Dryad repository as: `genetic.tar.gz`.
+**Data available at the Dryad repository as:** `genetic.tar.gz`.
 
 
-#### `plot_admixture_PGD_teocintles.Rmd`
+### `plot_admixture_PGD_teocintles.Rmd`
 
 Explores admixture results to perform: 
 
@@ -40,12 +38,12 @@ Explores admixture results to perform:
 
 * Supplementary Figure 5 (map with admixture pies).
 
-Data used by this script:
+**Data used by this script:**
 
 * *Zea mays parviglumis* SDM: `/data/spatial/modelosDarwinZea/Zea_mays_parviglumis.tif`
 
 * proxies of genetic differentiation croped for *Z. m. parviglumis* SDM:`"../data/spatial/areasProxyDivGen/crop_to_sp/PGD_Zea_mays_parviglumis.tif"`
-*
+
 * *Z. m. parviglumis* CV error (admixture output): `"../data/genetic/output/admixture/parvi/Kerror_parviglumis.txt"`
 
 * *Z. m. parviglumis* Q files for K= 25 and K= 13 (admixture output):
@@ -55,50 +53,46 @@ Data used by this script:
 
 * Fam file with sample list: `"../data/genetic/output/bytaxa_parviglumis.fam"`
 
+**Data available at the Dryad repository as:** `genetic.tar.gz`.
 
-Data available at the Dryad repository as: `genetic.tar.gz`.
-
-
-
-#### `plot_scenarios_PGD_parvi.R`
+### `plot_scenarios_PGD_parvi.R`
 
 Plots the barplot of Figure 3d.
 
-Data used by this script:
+**Data used by this script:**
 
 * Spatial output of zonation solution for 20% Mexico: `/data/comparations_output/sol_prop_spp.txt`
 
 * Samples metadata including PGD where they fell: `/data/genetic/output/PGD_points_parvi.txt`
 
-
-Data available at the Dryad repository as: `Comparing_output_txt.zip` and `genetic.tar.gz`.
-
+**Data available at the Dryad repository as:** `Comparing_output_txt.zip` and `genetic.tar.gz`.
 
 The admixture plot, map, PCA and bar plot were joined using Inkscape to make:
 
 * Figure 3. Genetic diversity of Zea mays subsp. parviglumis, a maize CWR, represented in the proxies of genetic differentiation (PGD).
 
 
-#### `plot_scenarios_PDG.R`
+### `plot_scenarios_PDG.R`
 
-Uses the data `/data/comparations_output/sols_summary_spp.txt` produced by the script `spatial_analyses_zonationVSproxiesdivgen_all_ms.R` to perform the plots of the following:
+Performs the plot an analyses:
 
 * Figure 4. Performance of five systematic conservation planning scenarios to represent conservation features of Mesoamerican crop wild relatives, considering 20% of Mexico’s terrestrial area.
 
 * Supplementary analyses suggested during review (only stats are mentioned in the ms text)
 
-Data available at the Dryad repository as: `Comparing_output_txt.zip`
+**Data used by this script:** `/data/comparations_output/sols_summary_spp.txt` produced by the script `spatial_analyses_zonationVSproxiesdivgen_all_ms.R`
 
-#### `plot_Zonation_curves.R`
+**Data available at the Dryad repository as:** `Comparing_output_txt.zip`
+
+### `plot_Zonation_curves.R`
 
 Performs the analyses and plots of the following figures:
 
 * Figure 6. Performance curves quantifying the representation of proxies of genetic differentiation within the distribution of crop wild relatives in Mexico, based on the hierarchical landscape priority rank map.
 
-
 * Supplementary Figure 9. Performance curves of how the proportion of taxa distribution ranges increased with the amount of land area. 
 
-Data used by this script:
+**Data used by this script:**
 
 * Read IUCN category per taxa: `/data/spatial/Zonation_final_solutions/IUCN_threat_category.csv"`. 
 
@@ -106,18 +100,15 @@ Data used by this script:
 
 * Zonation curves output and features but for taxa exclusively distributing in natural vegetation: `/data/spatial/Zonation_final_solutions/E_final_VegPyS.features_info.txt` and `/data/spatial/Zonation_final_solutions/E_final_VegPyS.curves.txt`.
 
-
 * Zonation curves output and features but for taxa associated to different habitats, i.e. natural vegetation, agricultural and urban areas: `"../data/spatial/Zonation_final_solutions/E_final_HabVarios.features_info.txt"` and `"../data/spatial/Zonation_final_solutions/E_final_HabVarios.curves.txt"`.
 
+**Data available at the Dryad repository as:** `IUCN_threat_category.csv` and `Zonation_output_final.tar.gz`
 
-Data available at the Dryad repository as: `IUCN_threat_category.csv` and `Zonation_output_final.tar.gz`
-
-
-#### `spatial_analyses_zonationVSproxiesdivgen_all_ms.R`
+### `spatial_analyses_zonationVSproxiesdivgen_all_ms.R`
 
 For each taxon crops the proxies of gen div to the species distribution models. Then performs analyses to compare different ways to incorporate the PDG into the Zonation analyses. 
 
-Data used by this script:
+**Data used by this script:**
 
 * Zonation outputs and proxies of gen div:
 
@@ -133,8 +124,7 @@ Data used by this script:
 * Species distribution models of each species: 
 `/data/spatial/modelos_darwin_all_final/*.tif`
 
-Input data available at the Dryad repository as: `Zonation_output_final.tar.gz`, `PGD_rasters.tar.gz` and `SDM_rasters.tar.gz`.
-
+**Input data available at the Dryad repository as:** `Zonation_output_final.tar.gz`, `PGD_rasters.tar.gz` and `SDM_rasters.tar.gz`.
 
 Output of this script:
 
@@ -146,7 +136,7 @@ Output of this script:
 
 * Diversity indexes and mean of proportion: `/data/comparations_output/sols_summary_spp.txt`
 
-Output data available at the Dryad repository as: `PGD_croptoSDM_rasters.tar.gz` and `Comparing_output_txt.zip`
+**Output data available at the Dryad repository as:** `PGD_croptoSDM_rasters.tar.gz` and `Comparing_output_txt.zip`
 
 
 ## Zonation analyses
@@ -174,7 +164,7 @@ Note: the taxa *Physalis ixocarpa* and *Solanum endiense* are mentioned in the s
 
 ## Non-coding analyses and Figures
 
-Figures 2, 5 and Supplementary Figures 1-3, 5-7, 10 and 11 were made in ArcMap with the spatial data and zonation raster outputs available in the Dryad repository (georeferenced data, species distribution models, zonation outputs, among others).
+Figures 2, 5 and Supplementary Figures 1,2,4,8,10, 12, 13 and 14 were made in ArcMap with the spatial data and Zonation raster outputs available in the Dryad repository.
 
 ## Species distribution modelling
 
@@ -193,7 +183,5 @@ Data used:
 3.	Trabucco, A. & Zomer, R. Global Aridity Index (Global-Aridity) and Global Potential Evapo-Transpiration (Global-PET) Geospatial Database. (2009).
 4.	Tuanmu, M. N. & Jetz, W. A global 1-km consensus land-cover product for biodiversity and ecosystem modelling. Glob. Ecol. Biogeogr. 23, 1031–1045 (2014).
 
-Species distribution models can be downloaded from: http://www.conabio.gob.mx/informacion/gis/), or see Supplementary Data XXX for direct download links of each taxon.
-
-# Agregar citas SDM aquí.
+Species distribution models can be downloaded from: http://www.conabio.gob.mx/informacion/gis/) under the category: Biodiversidad > Agrobiodiversidad y agroecosistemas > Parientes Silvestres de Cultivos
 
