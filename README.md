@@ -1,14 +1,13 @@
 # README
 
-Code and settings for the analyses of the paper **_Incorporating evolutionary and threat processes into crop wild relatives conservation_** by Wolke Tobón-Niedfeldt, Alicia Mastretta-Yanes, Tania Urquiza-Haas, Bárbara Goettsch, Angela P. Cuervo-Robayo, Esmeralda Urquiza-Haas, M. Andrea Orjuela-R, Francisca Acevedo Gasman, Oswaldo Oliveros-Galindo, Caroline Burgeff, Diana Rivera-Rodríguez, José de Jesús Sánchez González, Jesús Alarcón-Guerrero, Araceli Aguilar-Meléndez, Flavio Aragón Cuevas, Valeria Alavez, Gabriel Alejandre-Iturbide, Carlos-H. Avendaño-Arrazate, César Azurdia Pérez, Alfonso Delgado-Salinas, Pablo Galán, Manuel González-Ledesma, Jesús Hernández-Ruíz, Francisco G. Lorea-Hernández, Rafael Lira Saade, Aarón Rodríguez, Dagoberto Rodríguez Delcid, José Ariel Ruiz-Corra, Juan José Santos Pérez, Ofelia Vargas-Ponce, Melania Vega, Ana Wegier, Martín Quintana-Camargo, José Sarukhán and
-Patricia Koleff.
+Code and settings for the analyses of the paper **_Incorporating evolutionary and threat processes into crop wild relatives conservation_** by Wolke Tobón-Niedfeldt, Alicia Mastretta-Yanes, Tania Urquiza-Haas, Bárbara Goettsch, Angela P. Cuervo-Robayo, Esmeralda Urquiza-Haas, M. Andrea Orjuela-R, Francisca Acevedo Gasman, Oswaldo Oliveros-Galindo, Caroline Burgeff, Diana Rivera-Rodríguez, José de Jesús Sánchez González, Jesús Alarcón-Guerrero, Araceli Aguilar-Meléndez, Flavio Aragón Cuevas, Valeria Alavez, Gabriel Alejandre-Iturbide, Carlos-H. Avendaño-Arrazate, César Azurdia Pérez, Alfonso Delgado-Salinas, Pablo Galán, Manuel González-Ledesma, Jesús Hernández-Ruíz, Francisco G. Lorea-Hernández, Rafael Lira Saade, Aarón Rodríguez, Dagoberto Rodríguez Delcid, José Ariel Ruiz-Corra, Juan José Santos Pérez, Ofelia Vargas-Ponce, Melania Vega, Ana Wegier, Martín Quintana-Camargo, José Sarukhán and Patricia Koleff.
 
-The data used by the scripts below is provided in a separate Dryad repository ().
+The data used by the scripts below is provided in a separate Dryad repository (https://doi.org/10.5061/dryad.7m0cfxpxm). Scripts use relative paths assuming that the data is organised as explained below.
 
 ### Dependencies
 
 Analyses were carried out in Zonation version 4 and in R version 3.5.1. The following R packages were used:
-`purrr_0.3.4`, `tidyr_1.0.2`   `dplyr_1.0.2`   `ggplot2_3.3.3`, `readr_1.4.0`, `gridExtra_2.3`,  `ggnewscale_0.4.5`, `scatterpie_0.1.5`, `pophelper_2.3.1`, `rgdal_1.4-8`, `raster_3.4-5`, `sp_1.4-4`, `rgl_0.107.10` and `pcadapt_4.3.3`. Additional dependencies can be consulted in the html notebook of the r scritps (session info section).
+`purrr_0.3.4`, `tidyr_1.0.2`   `dplyr_1.0.2`   `ggplot2_3.3.3`, `readr_1.4.0`, `gridExtra_2.3`,  `ggnewscale_0.4.5`, `scatterpie_0.1.5`, `pophelper_2.3.1`, `rgdal_1.4-8`, `raster_3.4-5`, `sp_1.4-4`, `rgl_0.107.10` and `pcadapt_4.3.3`. Additional dependencies can be consulted in the html notebook of the r scripts (session info section).
 
 
 ## Analyses and Figures made in R
@@ -53,7 +52,7 @@ Explores admixture results to perform:
 
 * Fam file with sample list: `"../data/genetic/output/bytaxa_parviglumis.fam"`
 
-**Data available at the Dryad repository as:** `genetic.tar.gz`.
+**Data available at the Dryad repository as:** `genetic.tar.gz`, `SDM_rasters.tar.gz ` and `PGD_croptoSDM_rasters.tar.gz`.
 
 ### `plot_scenarios_PGD_parvi.R`
 
@@ -183,5 +182,4 @@ Data used:
 3.	Trabucco, A. & Zomer, R. Global Aridity Index (Global-Aridity) and Global Potential Evapo-Transpiration (Global-PET) Geospatial Database. (2009).
 4.	Tuanmu, M. N. & Jetz, W. A global 1-km consensus land-cover product for biodiversity and ecosystem modelling. Glob. Ecol. Biogeogr. 23, 1031–1045 (2014).
 
-Species distribution models can be downloaded from: http://www.conabio.gob.mx/informacion/gis/) under the category: Biodiversidad > Agrobiodiversidad y agroecosistemas > Parientes Silvestres de Cultivos
-
+Species distribution models can be downloaded from: http://www.conabio.gob.mx/informacion/gis/) under the category: Biodiversidad > Agrobiodiversidad y agroecosistemas > Parientes Silvestres de Cultivos. See Supplementary Data File 6 for direct download link for each SDM.
