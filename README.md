@@ -6,8 +6,7 @@ The data used by the scripts below is provided in a separate Dryad repository (h
 
 ### Dependencies
 
-Analyses were carried out in Zonation version 4 and in R version 3.5.1. The following R packages were used:
-`purrr_0.3.4`, `tidyr_1.0.2`   `dplyr_1.0.2`   `ggplot2_3.3.3`, `readr_1.4.0`, `gridExtra_2.3`,  `ggnewscale_0.4.5`, `scatterpie_0.1.5`, `pophelper_2.3.1`, `rgdal_1.4-8`, `raster_3.4-5`, `sp_1.4-4`, `rgl_0.107.10` and `pcadapt_4.3.3`. Additional dependencies can be consulted in the html notebook of the r scripts (session info section).
+Analyses were carried out in: Zonation version 4 and in R version 3.5.1 and 3.6.09. The following R packages were used: `ENMeval_0.3.0`, `purrr_0.3.4`, `tidyr_1.0.2` `dplyr_1.0.2`, `ggplot2_3.3.3`, `readr_1.4.0`, `gridExtra_2.3`, `ggnewscale_0.4.5`, `scatterpie_0.1.5`, `pophelper_2.3.1`, `rgdal_1.4-8`, `raster_3.4-5`, `sp_1.4-4`, `scales_1.2.0` , `rgl_0.107.10`, `vegan_2.6-2` and `pcadapt_4.3.3`.  Additional R dependencies can be consulted in the html notebook of the r scripts (session info section). Maps were plotted with ArcGIS 10.2.2.
 
 
 ## Analyses and Figures made in R
